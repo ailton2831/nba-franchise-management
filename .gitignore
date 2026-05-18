@@ -1,0 +1,15 @@
+# Configuração da base de dados
+db.php
+
+# Ficheiros do sistema Windows
+Thumbs.db
+desktop.ini
+
+# Ficheiros do VSCode
+.vscode/
+
+# Logs do PHP/Apache
+*.log
+
+# Uploads de utilizadores (se houver)
+uploads/
