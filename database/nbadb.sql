@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Tempo de geração: 18-Maio-2026 às 15:40
+-- Tempo de geração: 22-Maio-2026 às 12:49
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -63,8 +63,7 @@ CREATE TABLE `estatistica` (
 CREATE TABLE `financas` (
   `id` int(11) NOT NULL,
   `temporada` date NOT NULL,
-  `salary_cap` double NOT NULL,
-  `teto_salarial` double NOT NULL
+  `salary_cap` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -94,7 +93,6 @@ CREATE TABLE `jogo` (
   `data` date NOT NULL,
   `adversario` varchar(100) NOT NULL,
   `local` enum('home','away') NOT NULL,
-  `resultado` int(11) NOT NULL,
   `placar` int(11) NOT NULL,
   `placar_vs` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
