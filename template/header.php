@@ -75,7 +75,7 @@ $url_base = "http://localhost/nba/" ;
             <li class="nav-item">
                 <a class="nav-link" href="<?php echo $url_base;?>pages/contratos">Contratos</a>
             </li>
-            <?php //if(isset($_SESSION['tipo']) && $_SESSION['tipo']== 'admin'){ ?>
+            <?php //if(isset($_SESSION['tipo']) && $_SESSION['tipo']== 'analista'){ ?>
             <li class="nav-item">
                 <a class="nav-link" href="<?php echo $url_base;?>pages/finanças">Finanças</a>
             </li>
