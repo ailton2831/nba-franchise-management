@@ -21,7 +21,7 @@ if(isset($_GET['txtID'])){
     header("Location:index.php");
 }
 
-$sentencia=$conexion->prepare("SELECT * FROM `tab_users`");
+$sentencia=$conexion->prepare("SELECT * FROM `jogadores`");
 $sentencia->execute();
 $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
 
@@ -31,7 +31,7 @@ $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
 
 <?php include("../../template/header.php");?>
 
-listar Jogadores
+
 <br/>
 <div class="card">
     <div class="card-header">
