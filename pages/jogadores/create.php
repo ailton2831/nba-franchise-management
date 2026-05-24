@@ -51,6 +51,7 @@ function getEnumValues($pdo, $tabela, $coluna) {
 
 <?php include("../../template/header.php");?>
 
+<br/>
 <div class="card">
     <div class="card-header">Registar Jogadores</div>
     <div class="card-body">
