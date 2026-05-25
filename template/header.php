@@ -51,8 +51,11 @@ $url_base = "http://localhost/nba/" ;
         <nav class="navbar navbar-expand navbar-light bg-light">
         <ul class="nav navbar-nav">
             <li class="nav-item">
+                <a class="nav-link" href="#">🏀NBA Franchise</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link active" href="<?php echo $url_base;?>index.php" aria-current="page"
-                    >Sistema Web <span class="visually-hidden">(current)</span></a
+                    >Home page <span class="visually-hidden">(current)</span></a
                 >
             </li>
             <li class="nav-item">

@@ -38,7 +38,7 @@ $lista_jogos=$sentencia->fetchAll(PDO::FETCH_ASSOC);
             class="table-responsive"
         >
             <table
-                class="table" id="table_id"
+                class="table" id="table"
             >
                 <thead>
                     <tr>
