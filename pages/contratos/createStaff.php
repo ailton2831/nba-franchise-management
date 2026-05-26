@@ -5,14 +5,14 @@ if($_POST){
     $inicio = (isset($_POST["inicio"])?$_POST["inicio"]:"");
     $fim = (isset($_POST["fim"])?$_POST["fim"]:"");
     $salario = (isset($_POST["salario"])?$_POST["salario"]:"");
-    $id_jogador = (isset($_POST["id_jogador"])?$_POST["id_jogador"]:"");
+    $id_staff = (isset($_POST["id_staff"])?$_POST["id_staff"]:"");
     $status = (isset($_POST["status"])?$_POST["status"]:"");
 
-    $sentencia=$conexion->prepare("INSERT INTO contrato (id,data_inicio,data_final,salario,status,id_jogador,id_staff) VALUES (null, :inicio,:fim,:salario,:status, :id_jogador,null )");
+    $sentencia=$conexion->prepare("INSERT INTO contrato (id,data_inicio,data_final,salario,status,id_jogador,id_staff) VALUES (null, :inicio,:fim,:salario,:status,null, :id_staff, )");
     $sentencia-> bindParam(":inicio", $inicio);
     $sentencia-> bindParam(":fim", $fim);
     $sentencia-> bindParam(":salario", $salario);
-    $sentencia-> bindParam(":id_jogador", $id_jogador);
+    $sentencia-> bindParam(":id_staff", $id_staff);
     $sentencia->execute();
     header("Location:index.php");
 }
@@ -29,9 +29,9 @@ function getEnumValues($pdo, $tabela, $coluna) {
 }
 
 
-$sentencia=$conexion->prepare("SELECT * FROM `jogadores`");
+$sentencia=$conexion->prepare("SELECT * FROM `staff`");
 $sentencia->execute();
-$lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
+$lista_staff=$sentencia->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -43,14 +43,14 @@ $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
     <div class="card-body">
         <form action="" method="post" enctype="multipart/form-data">
             <div class="mb-3">
-                <label for="id_jogador" class="form-label">Escolher Jogador</label>
+                <label for="id_staff" class="form-label">Escolher Staff</label>
                 <select
                     class="form-select form-select-lg"
-                    name="id_jogador"
-                    id="id_jogador"
+                    name="id_staff"
+                    id="id_staff"
                 >
                     <option selected>Select one</option>
-                    <?php foreach ($lista_jogadores as $registo){ ?>
+                    <?php foreach ($lista_staff as $registo){ ?>
                     <option value="<?php echo $registo['id'];?>">
                     <?php echo $registo['nome'];?></option>
                     <?php } ?>
