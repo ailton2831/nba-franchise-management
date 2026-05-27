@@ -42,28 +42,52 @@ include("../../db.php");
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
-    <div class="container-fluid px-4">
-        <a class="navbar-brand fw-semibold" href="#">🏀 NBA Franchise</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navMenu">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link" href="#">Jogadores</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Staff</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Jogos</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Contratos</a></li>
-                <li class="nav-item"><a class="nav-link active fw-semibold" href="#">Finanças</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Estatísticas</a></li>
-            </ul>
-            <span class="navbar-text me-3 text-muted" style="font-size:13px">
-                Admin <span class="badge bg-secondary">admin</span>
-            </span>
-            <a href="#" class="btn btn-sm btn-outline-secondary">Sair</a>
-        </div>
-    </div>
-</nav>
+<nav class="navbar navbar-expand navbar-light bg-light">
+        <ul class="nav navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#">🏀NBA Franchise</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="<?php echo $url_base;?>index.php" aria-current="page"
+                    >Home page <span class="visually-hidden">(current)</span></a
+                >
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?php echo $url_base;?>pages/jogadores">Jogadores</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?php echo $url_base;?>pages/staff">Staff</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?php echo $url_base;?>pages/jogos">Jogos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?php echo $url_base;?>pages/stats">Stats</a>
+            </li>
+            <?php //if(isset($_SESSION['tipo']) && $_SESSION['tipo']== 'admin'){ ?>
+
+            <li class="nav-item">
+                <a class="nav-link" href="<?php echo $url_base;?>pages/utilizadores">Utilizadores</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?php echo $url_base;?>pages/contratos">Contratos</a>
+            </li>
+            <?php //if(isset($_SESSION['tipo']) && $_SESSION['tipo']== 'analista'){ ?>
+            <li class="nav-item">
+                <a class="nav-link" href="<?php echo $url_base;?>pages/finanças">Finanças</a>
+            </li>
+            
+            <?php //} ?>
+            <?php //} ?>
+
+                        
+
+                        <li class="nav-item">
+                <a class="nav-link" href="<?php echo $url_base;?>logout.php">Logout</a>
+            </li>
+
+        </ul>
+    </nav>
 
 <div class="container-fluid px-4 py-4">
 
