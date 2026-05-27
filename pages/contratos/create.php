@@ -8,11 +8,12 @@ if($_POST){
     $id_jogador = (isset($_POST["id_jogador"])?$_POST["id_jogador"]:"");
     $status = (isset($_POST["status"])?$_POST["status"]:"");
 
-    $sentencia=$conexion->prepare("INSERT INTO contrato (id,data_inicio,data_final,salario,status,id_jogador,id_staff) VALUES (null, :inicio,:fim,:salario,:status, :id_jogador,null )");
+    $sentencia=$conexion->prepare("INSERT INTO contrato (id,data_inicio,data_final,salario,status,tipo,id_jogador,id_staff) VALUES (null, :inicio,:fim,:salario,:status,jogador, :id_jogador,null )");
     $sentencia-> bindParam(":inicio", $inicio);
     $sentencia-> bindParam(":fim", $fim);
     $sentencia-> bindParam(":salario", $salario);
     $sentencia-> bindParam(":id_jogador", $id_jogador);
+    $sentencia-> bindParam(":status", $status);
     $sentencia->execute();
     header("Location:index.php");
 }
