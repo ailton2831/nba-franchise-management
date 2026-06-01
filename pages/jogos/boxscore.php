@@ -34,7 +34,7 @@ $tem_stats = $resultado['total'] > 0;
                 name=""
                 id=""
                 class="btn btn-primary"
-                href="../stats/create.php"
+                href="../stats/update.php"
                 role="button">Editar Estatistica</a>
             <?php else: ?>
                 <a
