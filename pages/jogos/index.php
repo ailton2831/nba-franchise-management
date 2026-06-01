@@ -11,12 +11,19 @@ if(isset($_GET['txtID'])){
 }
 
 
+
+
 $sentencia=$conexion->prepare("SELECT * FROM `jogo`");
 $sentencia->execute();
 $lista_jogos=$sentencia->fetchAll(PDO::FETCH_ASSOC);
 
+$hoje = date('Y-m-d');
+
 
 ?>
+
+
+
 
 <?php include("../../template/header.php");?>
 
@@ -58,9 +65,15 @@ $lista_jogos=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                         <td><?php echo $registo['data'] ;?></td>
                         <td><?php echo $registo['adversario'] ;?></td>
                         <td><?php echo $registo['local'] ;?></td>
-                        <td><?php echo $registo['placard'] ;?></td>
-                        <td><?php echo $registo['placard_adv'] ;?></td>
+                        <td><?php echo $registo['placard'] . ' - ' . $registo['placard_adv']; ?> ;?></td>
                         <td>
+                        <?php if ($registo['data'] <= $hoje ): ?>
+                            <a href="boxscore.php?txtID=<?php echo $registo['id'];?>"
+                                class="btn btn-primary"
+                                role="button">
+                                Box score
+                            </a>
+                        <?php endif; ?>
                         <a
                             name=""
                             id=""

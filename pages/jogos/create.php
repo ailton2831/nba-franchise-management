@@ -5,8 +5,8 @@ if($_POST){
     $data = (isset($_POST["data"])?$_POST["data"]:"");
     $adv = (isset($_POST["adversario"])?$_POST["adversario"]:"");
     $local = (isset($_POST["local"])?$_POST["local"]:"");
-    $placar = (isset($_POST["placar"])?$_POST["placar"]:"");
-    $placar_adv = (isset($_POST["placar_adv"])?$_POST["placar_adv"]:"");
+    $placar = (isset($_POST["placar"])?$_POST["placar"]:0);
+    $placar_adv = (isset($_POST["placar_adv"])?$_POST["placar_adv"]:0);
 
     $sentencia=$conexion->prepare("INSERT INTO jogo (id,data,adversario,local,placar,placar_adv) VALUES (null, :data,:adversario,:local,:placar,:placar_adv )");
     $sentencia-> bindParam(":data", $data);
@@ -81,6 +81,7 @@ function getEnumValues($pdo, $tabela, $coluna) {
                     class="form-control"
                     name="placar"
                     id="placar"
+                    min="0"
                     aria-describedby="helpId"
                     placeholder="Placar"
                 />
@@ -92,6 +93,7 @@ function getEnumValues($pdo, $tabela, $coluna) {
                     class="form-control"
                     name="placar_adv"
                     id="placar_adv"
+                    min="0"
                     aria-describedby="helpId"
                     placeholder="Placar adversario"
                 />
