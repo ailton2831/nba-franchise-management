@@ -1,16 +1,32 @@
 <?php 
 include("../../db.php");
 
-
+//temporada da vida real
 if(date('m') < 10){
-    $temporada_atual = (date('Y') - 1) . '/' . date('Y');
+    $temporada_real = (date('Y') - 1) . '/' . date('Y');
 } else {
-    $temporada_atual = date('Y') . '/' . (date('Y') + 1);
+    $temporada_real = date('Y') . '/' . (date('Y') + 1);
 }
 
+//Define a temporada que a tela vai exibir
+$temporada_atual = $temporada_real;
 if(isset($_GET['temporada'])){
     $temporada_atual = $_GET['temporada'];
 }
+
+// Desativa automaticamente os contratos que passaram a data final
+if ($temporada_atual === $temporada_real) {
+    $updateStatus = $conexion->prepare("
+        UPDATE contrato 
+        SET status = 'encerrado' 
+        WHERE status = 'ativo' 
+        AND data_final < :temporada_real
+    ");
+    $updateStatus->bindParam(":temporada_real", $temporada_real);
+    $updateStatus->execute();
+}
+
+
 
 if($_POST){
     $temporada = (isset($_POST["temporada"])?$_POST["temporada"]:"");
@@ -33,7 +49,8 @@ if($_POST){
             $sentencia->bindParam(":salary_cap", $salary_cap);
             $sentencia->bindParam(":teto_salarial", $teto_salarial);
             $sentencia->execute();
-            $temporada_atual = $temporada;
+            header("Location: financas.php?temporada=$temporada");
+            exit;
     }
     
 }
@@ -49,7 +66,14 @@ $teto_salarial = $financas['teto_salarial'] ?? 0;
 
 
 //total de salarios ativos
-$sentencia = $conexion->prepare("SELECT SUM(salario) AS total FROM contrato WHERE status = 'ativo'");
+$sentencia = $conexion->prepare("
+                        SELECT SUM(salario) AS total 
+                        FROM contrato 
+                        WHERE status = 'ativo' 
+                        AND :temporada_atual >= data_inicio 
+                        AND :temporada_atual <= data_final
+                        ");
+$sentencia->bindParam(":temporada_atual", $temporada_atual);
 $sentencia->execute();
 $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
 $total_comprometido = $resultado['total'] ?? 0;
@@ -63,18 +87,25 @@ $sentencia = $conexion->prepare("
     SELECT j.nome, c.salario, 'Jogador' AS tipo
     FROM contrato c
     JOIN jogadores j ON c.id_jogador = j.id
-    WHERE c.status = 'ativo' AND c.id_jogador IS NOT NULL
+    WHERE c.status = 'ativo' 
+    AND :temporada_atual >= c.data_inicio 
+    AND :temporada_atual <= c.data_final
+    AND c.id_jogador IS NOT NULL
 
     UNION ALL
 
     SELECT s.nome, c.salario, 'Staff' AS tipo
     FROM contrato c
     JOIN staff s ON c.id_staff = s.id
-    WHERE c.status = 'ativo' AND c.id_staff IS NOT NULL
+    WHERE c.status = 'ativo' 
+    AND :temporada_atual >= c.data_inicio 
+    AND :temporada_atual <= c.data_final
+    AND c.id_staff IS NOT NULL
 
     ORDER BY salario DESC
     LIMIT 5
 ");
+$sentencia->bindParam(":temporada_atual", $temporada_atual);
 $sentencia->execute();
 $top5 = $sentencia->fetchAll(PDO::FETCH_ASSOC);
 

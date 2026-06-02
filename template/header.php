@@ -92,7 +92,7 @@ $url_base = "http://localhost/nba/" ;
         </ul>
     </nav>
         <main class="container">
-            <br/>~
+            <br/>
             <?php if(isset($erro_validacao)): ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>Erro!</strong> <?= $erro_validacao ?>

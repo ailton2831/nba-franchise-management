@@ -66,8 +66,8 @@ $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                 <input
                     type="text"
                     class="form-control"
-                    name="data"
-                    id="data"
+                    name="inicio"
+                    id="datai"
                     aria-describedby="helpId"
                     placeholder="ex: 2024/2025"
                     pattern="\d{4}/\d{4}"
@@ -78,8 +78,8 @@ $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                 <input
                     type="text"
                     class="form-control"
-                    name="data"
-                    id="data"
+                    name="fim"
+                    id="dataf"
                     aria-describedby="helpId"
                     placeholder="ex: 2027/2028"
                     pattern="\d{4}/\d{4}"
