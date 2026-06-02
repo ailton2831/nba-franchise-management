@@ -17,23 +17,25 @@ if($_POST){
     $salary_cap = (isset($_POST["salary_cap"])?$_POST["salary_cap"]:"");
     $teto_salarial = (isset($_POST["teto_salarial"])?$_POST["teto_salarial"]:"");
 
-
-    $sentencia = $conexion->prepare("SELECT id FROM financas WHERE temporada = :temporada");
-    $sentencia->bindParam(":temporada", $temporada);
-    $sentencia->execute();
-    $existe = $sentencia->fetch();
-
-    if($existe){
-        $sentencia = $conexion->prepare("UPDATE financas SET salary_cap=:salary_cap, teto_salarial=:teto_salarial WHERE temporada=:temporada");
+    if (!preg_match('/^\d{4}\/\d{4}$/', $temporada)) {
+        $erro_validacao = "Formato de temporada inválido! Use o formato XXXX/XXXX (ex: 2024/2025).";
     } else {
-        $sentencia = $conexion->prepare("INSERT INTO financas (temporada, salary_cap, teto_salarial) VALUES (:temporada, :salary_cap, :teto_salarial)");
+        $sentencia = $conexion->prepare("SELECT id FROM financas WHERE temporada = :temporada");
+        $sentencia->bindParam(":temporada", $temporada);
+        $sentencia->execute();
+        $existe = $sentencia->fetch();
+        if($existe){
+            $sentencia = $conexion->prepare("UPDATE financas SET salary_cap=:salary_cap, teto_salarial=:teto_salarial WHERE temporada=:temporada");
+            } else {
+            $sentencia = $conexion->prepare("INSERT INTO financas (temporada, salary_cap, teto_salarial) VALUES (:temporada, :salary_cap, :teto_salarial)");
+            }
+            $sentencia->bindParam(":temporada", $temporada);
+            $sentencia->bindParam(":salary_cap", $salary_cap);
+            $sentencia->bindParam(":teto_salarial", $teto_salarial);
+            $sentencia->execute();
+            $temporada_atual = $temporada;
     }
-    $sentencia->bindParam(":temporada", $temporada);
-    $sentencia->bindParam(":salary_cap", $salary_cap);
-    $sentencia->bindParam(":teto_salarial", $teto_salarial);
-    $sentencia->execute();
-
-    $temporada_atual = $temporada;
+    
 }
 
 
@@ -46,7 +48,8 @@ $salary_cap    = $financas['salary_cap'] ?? 0;
 $teto_salarial = $financas['teto_salarial'] ?? 0;
 
 
-$sentencia = $conexion->prepare("SELECT SUM(salario) AS total FROM contratos WHERE status = 'ativo'");
+//total de salarios ativos
+$sentencia = $conexion->prepare("SELECT SUM(salario) AS total FROM contrato WHERE status = 'ativo'");
 $sentencia->execute();
 $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
 $total_comprometido = $resultado['total'] ?? 0;
@@ -58,16 +61,16 @@ $teto_excedido     = $espaco_disponivel < 0;
 // Top 5 maiores salários
 $sentencia = $conexion->prepare("
     SELECT j.nome, c.salario, 'Jogador' AS tipo
-    FROM contratos c
-    JOIN jogadores j ON c.jogador_id = j.id
-    WHERE c.status = 'ativo' AND c.jogador_id IS NOT NULL
+    FROM contrato c
+    JOIN jogadores j ON c.id_jogador = j.id
+    WHERE c.status = 'ativo' AND c.id_jogador IS NOT NULL
 
     UNION ALL
 
     SELECT s.nome, c.salario, 'Staff' AS tipo
-    FROM contratos c
-    JOIN staff s ON c.staff_id = s.id
-    WHERE c.status = 'ativo' AND c.staff_id IS NOT NULL
+    FROM contrato c
+    JOIN staff s ON c.id_staff = s.id
+    WHERE c.status = 'ativo' AND c.id_staff IS NOT NULL
 
     ORDER BY salario DESC
     LIMIT 5
@@ -145,13 +148,15 @@ $temporadas = $sentencia->fetchAll(PDO::FETCH_ASSOC);
 <div class="row g-4">
     <div class="col-md-5">
         <div class="card p-3">
-            <p class="text-uppercase text-muted mb-3" style="font-size:12px;font-weight:600">Definir temporada</p>
+            <p class="text-uppercase text-muted mb-3" style="font-size:12px;font-weight:600">Definir cap da temporada</p>
             <form method="POST" action="">
                 <div class="mb-3">
                     <label class="form-label">Temporada</label>
                     <input type="text" name="temporada" class="form-control"
                             value="<?= $financas['temporada'] ?? '' ?>"
-                            placeholder="ex: 2024/2025" required>
+                            placeholder="ex: 2024/2025" 
+                            pattern="\d{4}/\d{4}" required>
+    
                 </div>
                 <div class="row g-2 mb-3">
                     <div class="col">

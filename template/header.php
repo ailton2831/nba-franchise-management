@@ -85,14 +85,17 @@ $url_base = "http://localhost/nba/" ;
             
             <?php //} ?>
             <?php //} ?>
-
                         
-
                         <li class="nav-item">
                 <a class="nav-link" href="<?php echo $url_base;?>logout.php">Logout</a>
             </li>
-
         </ul>
     </nav>
-
         <main class="container">
+            <br/>~
+            <?php if(isset($erro_validacao)): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Erro!</strong> <?= $erro_validacao ?>
+                    <button type="text" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
