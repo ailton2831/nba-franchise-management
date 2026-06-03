@@ -68,6 +68,7 @@ $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                 </thead>
                 <tbody>
                     <?php foreach ($lista_jogadores as $registo) {
+                        $idade = "N/A";
                         if (!empty($registo['data_nascimento'])) {
                             $nascimento = new DateTime($registo['data_nascimento']);
                             $hoje = new DateTime();

@@ -38,7 +38,7 @@ body {
 }
 
 .card-accent-neutral {
-    border-top: 4px solid #000000;
+    border-top: 4px solid #707070;
     border-radius: 10px;
 }
 
@@ -48,7 +48,7 @@ body {
 }
 
 .table thead th {
-    background-color: #17408B;
+    background-color: #DA1A32;
     color: white;
     font-weight: 500;
     font-size: 13px;
@@ -166,4 +166,15 @@ body {
 .card-accent-warning {
     border-top: 4px solid #ffc107;
     border-radius: 10px;
+}
+.badge-winner {
+    background-color: #a5ff8c !important;
+    color: #133807 !important; /* Verde escuro para contraste */
+    font-weight: bold;
+}
+
+.badge-loser {
+    background-color: #ff8c8c !important;
+    color: #4a0d0d !important; /* Vermelho escuro para contraste */
+    font-weight: bold;
 }

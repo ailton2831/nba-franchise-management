@@ -7,6 +7,7 @@ if(isset($_GET['txtID'])){
     $sentencia->execute();
     $registo=$sentencia->fetch(PDO::FETCH_LAZY);
     $salario=$registo['salario'];
+    $id_staff = $registo['id_staff'];
 
     $sentencia=$conexion->prepare("SELECT * FROM `staff`");
     $sentencia->execute();
@@ -18,15 +19,15 @@ if($_POST){
     $inicio = (isset($_POST["inicio"])?$_POST["inicio"]:"");
     $fim = (isset($_POST["fim"])?$_POST["fim"]:"");
     $salario = (isset($_POST["salario"])?$_POST["salario"]:"");
-    $id_jogador = (isset($_POST["id_jogador"])?$_POST["id_jogador"]:"");
     $status = (isset($_POST["status"])?$_POST["status"]:"");
 
-    $sentencia=$conexion->prepare("UPDATE contrato SET data_inicio=:inicio, data_final=:fim,salario=:salario,status=:status, id_jogador=:id_jogador");
+    $sentencia=$conexion->prepare("UPDATE contrato SET data_inicio=:inicio, data_final=:fim,salario=:salario,status=:status
+                                    WHERE id=:id");
     $sentencia-> bindParam(":inicio", $inicio);
     $sentencia-> bindParam(":fim", $fim);
     $sentencia-> bindParam(":salario", $salario);
     $sentencia-> bindParam(":status", $status);
-    $sentencia-> bindParam(":id_jogador", $id_jogador);
+    $sentencia-> bindParam(":id", $txtID);
     $sentencia->execute();
     header("Location:index.php");
 }
@@ -62,10 +63,10 @@ function getEnumValues($pdo, $tabela, $coluna) {
                     id="id_staff"
                 >
                     <option selected>Select one</option>
-                    <?php foreach ($lista_staff as $registo){ ?>
-                    <option value="<?php echo $registo['id'];?>
-                    "<?php echo ($registo['id'] == $id_depart) ? 'selected' : ''; ?>>
-                    <?php echo $registo['nome'];?></option>
+                    <?php foreach ($lista_staff as $jogadores){ ?>
+                    <option value="<?php echo $jogadores['id'];?>
+                    "<?php echo ($jogadores['id'] == $id_staff) ? 'selected' : ''; ?>>
+                    <?php echo $jogadores['nome'];?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -74,8 +75,8 @@ function getEnumValues($pdo, $tabela, $coluna) {
                 <input
                     type="date"
                     class="form-control"
-                    name="data"
-                    id="data"
+                    name="inicio"
+                    id="inicio"
                     aria-describedby="helpId"
                     placeholder="data"
                 />
@@ -85,8 +86,8 @@ function getEnumValues($pdo, $tabela, $coluna) {
                 <input
                     type="date"
                     class="form-control"
-                    name="data"
-                    id="data"
+                    name="fim"
+                    id="fim"
                     aria-describedby="helpId"
                     placeholder="data"
                 />

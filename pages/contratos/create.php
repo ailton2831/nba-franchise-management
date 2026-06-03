@@ -8,18 +8,16 @@ if($_POST){
     $id_jogador = (isset($_POST["id_jogador"])?$_POST["id_jogador"]:"");
     $status = (isset($_POST["status"])?$_POST["status"]:"");
 
-    if (!preg_match('/^\d{4}\/\d{4}$/', $inicio) || !preg_match('/^\d{4}\/\d{4}$/', $fim )) {
-        $erro_validacao = "Formato de temporada inválido! Use o formato XXXX/XXXX (ex: 2024/2025).";
-    } else {
-        $sentencia=$conexion->prepare("INSERT INTO contrato (id,data_inicio,data_final,salario,status,tipo,id_jogador,id_staff) VALUES (null, :inicio,:fim,:salario,:status,'jogador', :id_jogador,null )");
-        $sentencia-> bindParam(":inicio", $inicio);
-        $sentencia-> bindParam(":fim", $fim);
-        $sentencia-> bindParam(":salario", $salario);
-        $sentencia-> bindParam(":id_jogador", $id_jogador);
-        $sentencia-> bindParam(":status", $status);
-        $sentencia->execute();
-        header("Location:index.php");
-    }
+
+    $sentencia=$conexion->prepare("INSERT INTO contrato (id,data_inicio,data_final,salario,status,tipo,id_jogador,id_staff) VALUES (null, :inicio,:fim,:salario,:status,'jogador', :id_jogador,null )");
+    $sentencia-> bindParam(":inicio", $inicio);
+    $sentencia-> bindParam(":fim", $fim);
+    $sentencia-> bindParam(":salario", $salario);
+    $sentencia-> bindParam(":id_jogador", $id_jogador);
+    $sentencia-> bindParam(":status", $status);
+    $sentencia->execute();
+    header("Location:index.php");
+    
 }
 
 function getEnumValues($pdo, $tabela, $coluna) {
@@ -62,27 +60,23 @@ $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                 </select>
             </div>
             <div class="mb-3">
-                <label for="" class="form-label">Temporada de inicio</label>
+                <label for="" class="form-label">Data de inicio</label>
                 <input
-                    type="text"
+                    type="date"
                     class="form-control"
                     name="inicio"
-                    id="datai"
+                    id="inicio"
                     aria-describedby="helpId"
-                    placeholder="ex: 2024/2025"
-                    pattern="\d{4}/\d{4}"
                 />
             </div>
             <div class="mb-3">
-                <label for="" class="form-label">Temporada de fim</label>
+                <label for="" class="form-label">Data de fim</label>
                 <input
-                    type="text"
+                    type="date"
                     class="form-control"
                     name="fim"
-                    id="dataf"
+                    id="fim"
                     aria-describedby="helpId"
-                    placeholder="ex: 2027/2028"
-                    pattern="\d{4}/\d{4}"
                 />
             </div>
             <div class="mb-3">

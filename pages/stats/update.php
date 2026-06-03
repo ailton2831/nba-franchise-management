@@ -12,6 +12,9 @@ $sentencia->execute();
 $lista_stats = $sentencia->fetchAll(PDO::FETCH_ASSOC);
 
 if(isset($_POST['id_jogador'])){
+    $sentencia = $conexion->prepare("UPDATE estatistica SET
+                        pontos=:pts, assist=:ass, ressalto=:reb, roubos=:stl, bloqueios=:blk, minutos=:min 
+                        WHERE id_jogo=:id_jogo AND id_jogador=:id_jogador");
     foreach ($_POST['id_jogador'] as $index => $id_jogador) {
         $min = (isset($_POST['min'][$index]) ? $_POST['min'][$index] : 0);
         $pts = (isset($_POST['pts'][$index]) ? $_POST['pts'][$index] : 0);
@@ -20,9 +23,6 @@ if(isset($_POST['id_jogador'])){
         $blk = (isset($_POST['blk'][$index]) ? $_POST['blk'][$index] : 0);
         $stl = (isset($_POST['stl'][$index]) ? $_POST['stl'][$index] : 0);
 
-        $sentencia = $conexion->prepare("UPDATE estatistica SET
-                        pontos=:pts, assist=:ass, ressalto=:reb, roubos=:stl, bloqueios=:blk, minutos=:min 
-                        WHERE id_jogo=:id_jogo AND id_jogador=:id_jogador");
 
         $sentencia->bindParam(":id_jogo", $txtID);
         $sentencia->bindParam(":id_jogador", $id_jogador);

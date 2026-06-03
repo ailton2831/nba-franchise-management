@@ -77,7 +77,7 @@ function getEnumValues($pdo, $tabela, $coluna) {
             <div class="mb-3">
                 <label for="" class="form-label">Placar</label>
                 <input
-                    type="int"
+                    type="number"
                     class="form-control"
                     name="placar"
                     id="placar"
@@ -89,7 +89,7 @@ function getEnumValues($pdo, $tabela, $coluna) {
             <div class="mb-3">
                 <label for="" class="form-label">Placar adversario</label>
                 <input
-                    type="int"
+                    type="number"
                     class="form-control"
                     name="placar_adv"
                     id="placar_adv"

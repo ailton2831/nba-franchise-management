@@ -20,8 +20,9 @@ if($_POST){
     $local = (isset($_POST["local"])?$_POST["local"]:"");
     $placar = (isset($_POST["placar"])?$_POST["placar"]:"");
     $placar_adv = (isset($_POST["placar_adv"])?$_POST["placar_adv"]:"");
+    $adv = (isset($_POST["adversario"])?$_POST["adversario"]:"");
 
-    $sentencia=$conexion->prepare("UPDATE jogo SET data=:data, local=:local, placar=:placar, placar_adv=:placar_adv WHERE id=:id");
+    $sentencia=$conexion->prepare("UPDATE jogo SET data=:data, local=:local, placar=:placar, adversario=:adversario, placar_adv=:placar_adv WHERE id=:id");
     $sentencia-> bindParam(":data", $data);
     $sentencia-> bindParam(":adversario", $adv);
     $sentencia-> bindParam(":local", $local);
@@ -131,7 +132,7 @@ function getEnumValues($pdo, $tabela, $coluna) {
                 type="submit"
                 class="btn btn-success"
             >
-                Adicionar Funcionário
+                Adicionar Jogo
             </button>
             <a
                 name=""

@@ -8,13 +8,18 @@ if(date('m') < 10){
     $temporada_real = date('Y') . '/' . (date('Y') + 1);
 }
 
-//Define a temporada que a tela vai exibir
+//Define a temporada do dashboard 
 $temporada_atual = $temporada_real;
 if(isset($_GET['temporada'])){
     $temporada_atual = $_GET['temporada'];
 }
 
-// Desativa automaticamente os contratos que passaram a data final
+// Transforma "2025/2026" em duas variáveis do tipo Date: "2025-10-01" e "2026-09-30"
+list($ano_inicio, $ano_fim) = explode('/', $temporada_atual);
+$inicio_temp = $ano_inicio . "-10-01";
+$fim_temp    = $ano_fim . "-09-30";
+
+// Desativacao dos contratos que passaram a data final
 if ($temporada_atual === $temporada_real) {
     $updateStatus = $conexion->prepare("
         UPDATE contrato 
@@ -27,6 +32,7 @@ if ($temporada_atual === $temporada_real) {
 }
 
 
+$erro_validacao = "";
 
 if($_POST){
     $temporada = (isset($_POST["temporada"])?$_POST["temporada"]:"");
@@ -70,10 +76,11 @@ $sentencia = $conexion->prepare("
                         SELECT SUM(salario) AS total 
                         FROM contrato 
                         WHERE status = 'ativo' 
-                        AND :temporada_atual >= data_inicio 
-                        AND :temporada_atual <= data_final
+                        AND data_inicio <= :temporada_fim
+                        AND data_final >= :temporada_inicio
                         ");
-$sentencia->bindParam(":temporada_atual", $temporada_atual);
+$sentencia->bindParam(":temporada_inicio", $inicio_temp);
+$sentencia->bindParam(":temporada_fim", $fim_temp);
 $sentencia->execute();
 $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
 $total_comprometido = $resultado['total'] ?? 0;
@@ -88,8 +95,8 @@ $sentencia = $conexion->prepare("
     FROM contrato c
     JOIN jogadores j ON c.id_jogador = j.id
     WHERE c.status = 'ativo' 
-    AND :temporada_atual >= c.data_inicio 
-    AND :temporada_atual <= c.data_final
+    AND  c.data_final >= :temporada_inicio 
+    AND c.data_inicio <= :temporada_final
     AND c.id_jogador IS NOT NULL
 
     UNION ALL
@@ -98,14 +105,15 @@ $sentencia = $conexion->prepare("
     FROM contrato c
     JOIN staff s ON c.id_staff = s.id
     WHERE c.status = 'ativo' 
-    AND :temporada_atual >= c.data_inicio 
-    AND :temporada_atual <= c.data_final
+    AND  c.data_final >= :temporada_inicio 
+    AND c.data_inicio <= :temporada_fim
     AND c.id_staff IS NOT NULL
 
     ORDER BY salario DESC
     LIMIT 5
 ");
-$sentencia->bindParam(":temporada_atual", $temporada_atual);
+$sentencia->bindParam(":temporada_inicio", $inicio_temp);
+$sentencia->bindParam(":temporada_fim", $fim_temp);
 $sentencia->execute();
 $top5 = $sentencia->fetchAll(PDO::FETCH_ASSOC);
 
@@ -122,9 +130,19 @@ $temporadas = $sentencia->fetchAll(PDO::FETCH_ASSOC);
 
 <br/>
 
+<?php if(!empty($erro_validacao)): ?>
+    <div
+        class="alert alert-danger"
+        role="alert"
+    >
+        <strong>Erro de entrada</strong> $erro_validacao
+    </div>
+    
+<?php endif; ?>
+
 <?php if($teto_excedido): ?>
 <div class="card border-0 bg-danger bg-opacity-10 text-danger p-3 mb-4 d-flex flex-row align-items-center gap-3" style="border-radius: 12px;">
-    <span style="font-size: 24px;">⚠️</span>
+    <span style="font-size: 24px;"></span>
     <div>
         <h6 class="mb-1 fw-bold">Alerta de Luxury Tax</h6>
         <p class="mb-0 small">Teto salarial excedido em <strong>$<?= number_format(abs($espaco_disponivel), 0, ',', '.') ?></strong>. Reveja os contratos ativos da equipa.</p>

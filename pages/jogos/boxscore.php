@@ -1,6 +1,9 @@
 <?php 
 include("../../db.php");
 
+$lista_stats = []; 
+$tem_stats = false;
+
 if(isset($_GET['txtID'])){
     $txtID = (isset($_GET['txtID'])?$_GET['txtID']:"");
     $sentencia=$conexion->prepare("SELECT stats.*, j.nome 
@@ -11,13 +14,16 @@ if(isset($_GET['txtID'])){
     $sentencia->execute();
     $lista_stats=$sentencia->fetchAll(PDO::FETCH_ASSOC);
 
+
+    $sentencia = $conexion->prepare("SELECT COUNT(*) as total FROM estatistica WHERE id_jogo = :id_jogo");
+    $sentencia->bindParam(":id_jogo", $txtID);
+    $sentencia->execute();
+    $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+    $tem_stats = $resultado['total'] > 0;
+
 }
 
-$sentencia = $conexion->prepare("SELECT COUNT(*) as total FROM estatistica WHERE id_jogo = :id_jogo");
-$sentencia->bindParam(":id_jogo", $txtID);
-$sentencia->execute();
-$resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
-$tem_stats = $resultado['total'] > 0;
+
 
 ?>
 
@@ -34,14 +40,14 @@ $tem_stats = $resultado['total'] > 0;
                 name=""
                 id=""
                 class="btn btn-primary"
-                href="../stats/update.php"
+                href="../stats/update.php?txtID=<?php echo $txtID ;?>"
                 role="button">Editar Estatistica</a>
             <?php else: ?>
                 <a
                 name=""
                 id=""
                 class="btn btn-primary"
-                href="../stats/create.php"
+                href="../stats/create.php?txtID=<?php echo $txtID;?>"
                 role="button">Adicionar Estatistica</a>
             <?php endif; ?>
         <?php //endif; ?>
@@ -74,7 +80,6 @@ $tem_stats = $resultado['total'] > 0;
                         <td><?php echo $registo['reb'] ;?></td>
                         <td><?php echo $registo['blk'] ;?></td>
                         <td><?php echo $registo['stl'] ;?></td>
-                    </td>
                     </tr>
                     <?php }?>
                 </tbody>

@@ -31,7 +31,7 @@ if($_POST){
 
 
 
-    $sentencia=$conexion->prepare("UPDATE jogadores SET nome=:nome, numero=:numero, posicao=:posicao, altura=:altura, peso=:peso, data_nascimento=:data_nascimento ");
+    $sentencia=$conexion->prepare("UPDATE jogadores SET nome=:nome, numero=:numero, posicao=:posicao, altura=:altura, peso=:peso, data_nascimento=:data_nascimento WHERE id=:id ");
     
     $sentencia-> bindParam(":id",$txtID);
     $sentencia-> bindParam(":nome", $nome);
@@ -146,13 +146,14 @@ function getEnumValues($pdo, $tabela, $coluna) {
                 />
             </div>
             <div class="mb-3">
-                <label for="escolaridade" class="form-label">Posição</label>
+                <label for="posicao" class="form-label">Posição</label>
                 <select class="form-select" name="posicao" id="posicao" required>
                     <option value="">Selecione...</option>
                     <?php 
                     $opcoesPosicao = getEnumValues($conexion, 'jogadores', 'posicao');
                     foreach ($opcoesPosicao as $opcao) {
-                        echo "<option value='$opcao'>$opcao</option>";
+                        $selected = ($opcao == $posicao) ? "selected" : "";
+                        echo "<option value='$opcao' $selected>$opcao</option>";
                     }
                     ?>
                 </select>

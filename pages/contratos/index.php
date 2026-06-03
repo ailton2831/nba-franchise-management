@@ -11,7 +11,11 @@ if(isset($_GET['txtID'])){
 }
 
 
-$sentencia=$conexion->prepare("SELECT * FROM `contrato`");
+$sentencia=$conexion->prepare("SELECT c.id, c.data_inicio AS inicio, c.data_final AS fim, c.salario, c.status, c.tipo,
+                                COALESCE(j.nome, s.nome) AS nome
+                                FROM contrato c
+                                LEFT JOIN jogadores j ON c.id_jogador = j.id
+                                LEFT JOIN staff s ON c.id_staff = s.id");
 $sentencia->execute();
 $lista_contrato=$sentencia->fetchAll(PDO::FETCH_ASSOC);
 

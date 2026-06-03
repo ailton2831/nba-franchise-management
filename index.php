@@ -154,14 +154,14 @@ $win_pct = ($total_vitoria + $total_derrota) > 0
             <?php else: ?>
                 <div class="d-flex flex-column gap-2">
                     <?php foreach($ultimos_jogos as $jogo): ?>
-                        <?php $vitoria = $jogo['placar'] > $jogo['placar_vs']; ?>
+                        <?php $vitoria = $jogo['placar'] > $jogo['placar_adv']; ?>
                         <div class="d-flex align-items-center gap-3">
-                            <span class="badge <?= $vitoria ? 'bg-success' : 'bg-danger' ?>" 
+                            <span class="badge <?= $vitoria ? 'badge-winner' : 'badge-loser' ?>" 
                                     style="width:30px;text-align:center">
                                 <?= $vitoria ? 'V' : 'D' ?>
                             </span>
                             <span class="fw-semibold" style="font-size:13px">
-                                <?= $jogo['placar'] ?>-<?= $jogo['placar_vs'] ?>
+                                <?= $jogo['placar'] ?>-<?= $jogo['placar_adv'] ?>
                             </span>
                             <span class="text-muted" style="font-size:13px">
                                 vs <?= htmlspecialchars($jogo['adversario']) ?>

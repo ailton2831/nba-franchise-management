@@ -65,8 +65,20 @@ $hoje = date('Y-m-d');
                         <td><?php echo $registo['data'] ;?></td>
                         <td><?php echo $registo['adversario'] ;?></td>
                         <td><?php echo $registo['local'] ;?></td>
-                        <td><?php echo $registo['placard'] . ' - ' . $registo['placard_adv']; ?> ;?></td>
+                        <td><?php echo $registo['placar'] . ' - ' . $registo['placar_adv']; ?> ;?></td>
                         <td>
+                            <?php 
+                            if ($registo['data'] <= $hoje) {
+                                if ($registo['placar'] > $registo['placar_adv']) { 
+                                    echo '<span class="badge badge-winner">W</span>'; // Vitória
+                                } else {
+                                    echo '<span class="badge badge-loser">L</span>'; // Derrota
+                                }
+                            } else {
+                                echo '<span class="badge bg-light text-dark">Agendado</span>';
+                            }
+                            ?> 
+                        </td>
                         <?php if ($registo['data'] <= $hoje ): ?>
                             <a href="boxscore.php?txtID=<?php echo $registo['id'];?>"
                                 class="btn btn-primary"

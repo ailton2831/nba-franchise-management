@@ -10,6 +10,9 @@ $sentencia->execute();
 $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
 
 if(isset($_POST['id_jogador'])){
+    $sentencia = $conexion->prepare("INSERT INTO estatistica 
+            (id_jogo, id_jogador, pontos, assist, ressalto, roubos, bloqueios, minutos) 
+            VALUES (:id_jogo, :id_jogador, :pts, :ass, :reb, :stl, :blk, :min)");
     foreach ($_POST['id_jogador'] as $index => $id_jogador) {
         $min = (isset($_POST['min'][$index]) ? $_POST['min'][$index] : 0);
         $pts = (isset($_POST['pts'][$index]) ? $_POST['pts'][$index] : 0);
@@ -17,10 +20,6 @@ if(isset($_POST['id_jogador'])){
         $reb = (isset($_POST['reb'][$index]) ? $_POST['reb'][$index] : 0);
         $blk = (isset($_POST['blk'][$index]) ? $_POST['blk'][$index] : 0);
         $stl = (isset($_POST['stl'][$index]) ? $_POST['stl'][$index] : 0);
-
-        $sentencia = $conexion->prepare("INSERT INTO estatistica 
-            (id_jogo, id_jogador, pontos, assist, ressalto, roubos, bloqueios, minutos) 
-            VALUES (:id_jogo, :id_jogador, :pts, :ass, :reb, :stl, :blk, :min)");
         
         $sentencia->bindParam(":id_jogo", $txtID);
         $sentencia->bindParam(":id_jogador", $id_jogador);
