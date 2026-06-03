@@ -95,28 +95,28 @@ $win_pct = ($total_vitoria + $total_derrota) > 0
 
 <div class="row g-3 mb-4 justify-content-center">
     <div class="col-6 col-md-3">
-        <div class="card text-center p-3">
+        <div class="card card-accent-neutral shadow-sm p-3">
             <p class="text-muted mb-1" style="font-size:13px">Total Jogadores</p>
             <h5 class="text-dark fw-bold mb-0"><?= $totaljogador ?></h5>
             <small class="text-muted">na equipe</small>
         </div>
     </div>
     <div class="col-6 col-md-3">
-        <div class="card text-center p-3">
+        <div class="card card-accent-success shadow-sm p-3">
             <p class="text-muted mb-1" style="font-size:13px">Vitórias</p>
             <h5 class="text-success fw-bold mb-0"><?= $total_vitoria ?></h5>
             <small class="text-muted">na temporada</small>
         </div>
     </div>
     <div class="col-6 col-md-3">
-        <div class="card text-center p-3">
+        <div class="card card-accent-danger shadow-sm p-3">
             <p class="text-muted mb-1" style="font-size:13px">Derrotas</p>
             <h5 class="text-danger fw-bold mb-0"><?= $total_derrota ?></h5>
             <small class="text-muted">na temporada</small>
         </div>
     </div>
     <div class="col-6 col-md-3">
-        <div class="card text-center p-3">
+        <div class="card card-accent-primary shadow-sm p-3">
             <p class="text-muted mb-1" style="font-size:13px">% Vitórias</p>
             <h5 class="text-primary fw-bold mb-0"><?= $win_pct ?>%</h5>
             <small class="text-muted">win rate</small>
@@ -180,7 +180,7 @@ $win_pct = ($total_vitoria + $total_derrota) > 0
 <!-- Líderes da temporada -->
 <div class="row g-4 mb-4">
     <div class="col-md-4">
-        <div class="card p-3 text-center">
+        <div class="card lider-pts shadow-sm p-3 text-center">
             <p class="text-uppercase text-muted mb-2" style="font-size:12px;font-weight:600">Líder em pontos</p>
             <?php if($top_pts): ?>
                 <h5 class="mb-1"><?= htmlspecialchars($top_pts['nome']) ?></h5>
@@ -192,7 +192,7 @@ $win_pct = ($total_vitoria + $total_derrota) > 0
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card p-3 text-center">
+        <div class="card lider-ast shadow-sm p-3 text-center">
             <p class="text-uppercase text-muted mb-2" style="font-size:12px;font-weight:600">Líder em assistências</p>
             <?php if($top_ast): ?>
                 <h5 class="mb-1"><?= htmlspecialchars($top_ast['nome']) ?></h5>
@@ -204,7 +204,7 @@ $win_pct = ($total_vitoria + $total_derrota) > 0
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card p-3 text-center">
+        <div class="card lider-reb shadow-sm p-3 text-center">
             <p class="text-uppercase text-muted mb-2" style="font-size:12px;font-weight:600">Líder em ressaltos</p>
             <?php if($top_reb): ?>
                 <h5 class="mb-1"><?= htmlspecialchars($top_reb['nome']) ?></h5>

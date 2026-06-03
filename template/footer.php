@@ -1,7 +1,7 @@
         </main>
 
-        <footer>
-            
+        <footer class="mt-5 py-3 text-center text-muted" style="border-top: 1px solid #dee2e6; font-size:13px;">
+            Gestão Franquia NBA &copy; <?= date('Y') ?>
         </footer>
         <!-- Bootstrap JavaScript Libraries -->
         <script

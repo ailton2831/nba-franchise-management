@@ -8,6 +8,8 @@ $url_base = "http://localhost/nba/" ;
 //    exit();
 
 //}
+$uri = $_SERVER['REQUEST_URI'];
+
 ?>
 
 <!doctype html>
@@ -27,6 +29,8 @@ $url_base = "http://localhost/nba/" ;
             rel="stylesheet"
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
             crossorigin="anonymous"/>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+        <link href="<?= $url_base ?>style.css" rel="stylesheet">
 
         <script
         src="https://code.jquery.com/jquery-3.6.3.min.js"
@@ -48,39 +52,39 @@ $url_base = "http://localhost/nba/" ;
         <header>
             <!-- place navbar here -->
         </header>
-        <nav class="navbar navbar-expand navbar-light bg-light">
+        <nav class="navbar navbar-expand navbar-dark" style="background-color: #17408B;">
         <ul class="nav navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="#">NBA Franchise</a>
+                <img src="<?= $url_base ?>imagens/nbalogo2.png" height="40" class="ms-3 me-2">
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="<?php echo $url_base;?>index.php" aria-current="page"
+                <a class="nav-link <?= (strpos($uri, 'index.php') !== false || $uri == '/nba/') ? 'active' : '' ?>" href="<?php echo $url_base;?>index.php" aria-current="page"
                     >Home page <span class="visually-hidden">(current)</span></a
                 >
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?php echo $url_base;?>pages/jogadores">Jogadores</a>
+                <a class="nav-link <?= (strpos($uri, 'jogadores') !== false) ? 'active' : '' ?>" href="<?php echo $url_base;?>pages/jogadores">Jogadores</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?php echo $url_base;?>pages/staff">Staff</a>
+                <a class="nav-link <?= (strpos($uri, 'staff') !== false) ? 'active' : '' ?>" href="<?php echo $url_base;?>pages/staff">Staff</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?php echo $url_base;?>pages/jogos">Jogos</a>
+                <a class="nav-link <?= (strpos($uri, 'jogos') !== false) ? 'active' : '' ?>" href="<?php echo $url_base;?>pages/jogos">Jogos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?php echo $url_base;?>pages/stats">Stats</a>
+                <a class="nav-link <?= (strpos($uri, 'stats') !== false) ? 'active' : '' ?>" href="<?php echo $url_base;?>pages/stats">Stats</a>
             </li>
             <?php //if(isset($_SESSION['tipo']) && $_SESSION['tipo']== 'admin'){ ?>
 
             <li class="nav-item">
-                <a class="nav-link" href="<?php echo $url_base;?>pages/utilizadores">Utilizadores</a>
+                <a class="nav-link <?= (strpos($uri, 'utilizadores') !== false) ? 'active' : '' ?>" href="<?php echo $url_base;?>pages/utilizadores">Utilizadores</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?php echo $url_base;?>pages/contratos">Contratos</a>
+                <a class="nav-link <?= (strpos($uri, 'contratos') !== false) ? 'active' : '' ?>" href="<?php echo $url_base;?>pages/contratos">Contratos</a>
             </li>
             <?php //if(isset($_SESSION['tipo']) && $_SESSION['tipo']== 'analista'){ ?>
             <li class="nav-item">
-                <a class="nav-link" href="<?php echo $url_base;?>pages/finanças">Finanças</a>
+                <a class="nav-link <?= (strpos($uri, 'financas') !== false) ? 'active' : '' ?>" href="<?php echo $url_base;?>pages/financas">Finanças</a>
             </li>
             
             <?php //} ?>

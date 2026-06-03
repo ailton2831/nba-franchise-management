@@ -1,0 +1,169 @@
+/* style.css */
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f2f5;
+    animation: fadeIn 0.3s ease;
+}
+
+.card-accent-neutral, 
+.card-accent-mid {
+    border-top: 4px solid #000000;
+    border-radius: 10px;
+}
+
+.card {
+    
+    border: none; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.card-accent-success {
+    border-top: 4px solid #198754;
+    border-radius: 10px;
+}
+.card-accent-danger {
+    border-top: 4px solid #dc3545;
+    border-radius: 10px;
+}
+.card-accent-primary {
+    border-top: 4px solid #0d6efd;
+    border-radius: 10px;
+}
+
+.card-accent-neutral {
+    border-top: 4px solid #000000;
+    border-radius: 10px;
+}
+
+.card-accent-mid{
+    border-top: 4px solid #000000;
+    border-radius: 10px;
+}
+
+.table thead th {
+    background-color: #17408B;
+    color: white;
+    font-weight: 500;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.btn {
+    border-radius: 15px;
+    padding: 6px 20px;
+}
+
+.btn {
+    transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeInUp 0.4s ease;
+}
+
+
+.lider-card:hover {
+    transform: translateY(-4px);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f8f9fa;
+}
+
+/* Cor do link quando está na página atual */
+.navbar-dark .navbar-nav .nav-link.active {
+    color: #ffffff !important; /* Branco total */
+    background-color: rgba(255, 255, 255, 0.15); /* Um fundo levemente clareado */
+    border-radius: 4px; /* Cantos arredondados no fundo */
+    font-weight: 600; /* Texto em negrito para destacar */
+}
+
+/* Efeito opcional ao passar o mouse nos outros itens */
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #e0e0e0 !important;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #e9ecef !important; /* Cor levemente mais escura ao passar o rato */
+}
+
+/* Borda arredondada na tabela para um visual mais limpo */
+.table {
+    border-radius: 10px;
+    overflow: hidden; /* Mantém os cantos redondos mesmo com o header */
+}
+
+.navbar {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Personalização da barra de rolagem (Funciona no Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f0f2f5; 
+}
+
+::-webkit-scrollbar-thumb {
+    background: #17408B; /* Azul do seu header */
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #112d62; /* Azul mais escuro ao passar o rato */
+}
+
+.lider-pts { border-left: 5px solid #17408B; } /* Azul */
+.lider-ast { border-left: 5px solid #198754; } /* Verde */
+.lider-reb { border-left: 5px solid #ffc107; } /* Ouro/Laranja */
+
+.card-accent-warning {
+    border-top: 4px solid #ffc107;
+    border-radius: 10px;
+}

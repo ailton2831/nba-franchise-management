@@ -2,8 +2,6 @@
 include("../../db.php");
 
 if($_POST){
-    print_r($_POST);
-    print_r($_FILES);
     $nome = (isset($_POST["nome"])?$_POST["nome"]:"");
     $numero = (isset($_POST["numero"])?$_POST["numero"]:"");
     $foto = (isset($_FILES["foto"]['name'])?$_FILES["foto"]['name']:"");
@@ -81,7 +79,7 @@ function getEnumValues($pdo, $tabela, $coluna) {
             <div class="mb-3">
                 <label for="" class="form-label">Numero</label>
                 <input
-                    type="int"
+                    type="number"
                     class="form-control"
                     name="numero"
                     id="numero"
@@ -104,9 +102,10 @@ function getEnumValues($pdo, $tabela, $coluna) {
             <div class="mb-3">
                 <label for="" class="form-label">Peso</label>
                 <input
-                    type="double"
+                    type="number"
                     class="form-control"
                     name="peso"
+                    step="0.01"
                     id="peso"
                     aria-describedby="helpId"
                     placeholder="Peso(kg)"
@@ -115,9 +114,10 @@ function getEnumValues($pdo, $tabela, $coluna) {
             <div class="mb-3">
                 <label for="" class="form-label">Altura</label>
                 <input
-                    type="double"
+                    type="number"
                     class="form-control"
                     name="altura"
+                    step="0.01"
                     id="altura"
                     aria-describedby="helpId"
                     placeholder="altura(m)"

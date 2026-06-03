@@ -123,49 +123,54 @@ $temporadas = $sentencia->fetchAll(PDO::FETCH_ASSOC);
 <br/>
 
 <?php if($teto_excedido): ?>
-<div class="alert alert-danger">
-    Teto salarial excedido em <strong>$<?= number_format(abs($espaco_disponivel), 0, ',', '.') ?></strong>. Reveja os contratos ativos.
+<div class="card border-0 bg-danger bg-opacity-10 text-danger p-3 mb-4 d-flex flex-row align-items-center gap-3" style="border-radius: 12px;">
+    <span style="font-size: 24px;">⚠️</span>
+    <div>
+        <h6 class="mb-1 fw-bold">Alerta de Luxury Tax</h6>
+        <p class="mb-0 small">Teto salarial excedido em <strong>$<?= number_format(abs($espaco_disponivel), 0, ',', '.') ?></strong>. Reveja os contratos ativos da equipa.</p>
+    </div>
 </div>
 <?php endif; ?>
 
-<form method="GET" action="" class="d-flex gap-2 align-items-center mb-4">
-    <label class="form-label mb-0">Temporada:</label>
-    <select name="temporada" class="form-select" style="width:auto">
-        <?php foreach($temporadas as $registo): ?>
-            <option value="<?= $registo['temporada'] ?>" 
-                <?= $registo['temporada'] === $temporada_atual ? 'selected' : '' ?>>
-                <?= $registo['temporada'] ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-    <button type="submit" class="btn btn-outline-primary">Apply</button>
+<form method="GET" action="" class="mb-4">
+    <div class="input-group" style="max-width: 300px;">
+        <span class="input-group-text bg-white border-end-0 text-muted small">Temporada</span>
+        <select name="temporada" class="form-select border-start-0 ps-0 fw-semibold">
+            <?php foreach($temporadas as $registo): ?>
+                <option value="<?= $registo['temporada'] ?>" <?= $registo['temporada'] === $temporada_atual ? 'selected' : '' ?>>
+                    <?= $registo['temporada'] ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <button type="submit" class="btn btn-primary">Aplicar</button>
+    </div>
 </form>
 
 <!-- Cards de métricas -->
 <div class="row g-3 mb-4">
     <div class="col-6 col-md-3">
-        <div class="card text-center p-3">
+        <div class="card card-accent-primary shadow-sm p-3">
             <p class="text-muted mb-1" style="font-size:13px">Salary cap</p>
             <h5 class="text-primary mb-0">$<?= number_format($salary_cap, 0, ',', '.') ?></h5>
             <small class="text-muted">limite suave</small>
         </div>
     </div>
     <div class="col-6 col-md-3">
-        <div class="card text-center p-3">
+        <div class="card card-accent-neutral shadow-sm p-3">
             <p class="text-muted mb-1" style="font-size:13px">Luxury Tax</p>
             <h5 class="mb-0">$<?= number_format($teto_salarial, 0, ',', '.') ?></h5>
             <small class="text-muted">limite máximo</small>
         </div>
     </div>
     <div class="col-6 col-md-3">
-        <div class="card text-center p-3">
+        <div class="card card-accent-warning shadow-sm p-3">
             <p class="text-muted mb-1" style="font-size:13px">Total comprometido</p>
             <h5 class="text-warning mb-0">$<?= number_format($total_comprometido, 0, ',', '.') ?></h5>
             <small class="text-muted">contratos ativos</small>
         </div>
     </div>
     <div class="col-6 col-md-3">
-        <div class="card text-center p-3 <?= $teto_excedido ? 'border-danger' : 'border-success' ?>">
+        <div class="card card-accent-success shadow-sm p-3 <?= $teto_excedido ? 'border border-danger' : '' ?>">
             <p class="text-muted mb-1" style="font-size:13px">Espaço disponível</p>
             <h5 class="<?= $teto_excedido ? 'text-danger' : 'text-success' ?> mb-0">
                 $<?= number_format(abs($espaco_disponivel), 0, ',', '.') ?>

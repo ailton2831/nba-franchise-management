@@ -27,6 +27,7 @@ $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
 
 
 
+
 ?>
 
 <?php include("../../template/header.php");?>
@@ -66,7 +67,12 @@ $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($lista_jogadores as $registo) {?> 
+                    <?php foreach ($lista_jogadores as $registo) {
+                        if (!empty($registo['data_nascimento'])) {
+                            $nascimento = new DateTime($registo['data_nascimento']);
+                            $hoje = new DateTime();
+                            $idade = $hoje->diff($nascimento)->y;
+                        }?> 
                     <tr class="">
                         <td scope="row"><?php echo $registo['id'] ;?></td>
                         <td>
@@ -83,7 +89,7 @@ $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                         <td><?php echo $registo['posicao'] ;?></td>
                         <td><?php echo $registo['peso'] ;?></td>
                         <td><?php echo $registo['altura'] ;?></td>
-                        <td><?php echo $registo['data_nascimento'] ;?></td>
+                        <td><?php echo $idade ;?></td>
                         <td>
                         <a
                             name=""
