@@ -35,7 +35,14 @@ if($_POST){
     $sentencia-> bindParam(":status", $status);
     $sentencia-> bindParam(":id", $txtID);
     $sentencia->execute();
+    
+    $_SESSION['alerta'] = [
+        'icon'  => 'success',
+        'title' => 'Atualizado!',
+        'text'  => 'As alterações foram guardadas com sucesso.'
+    ];
     header("Location:index.php");
+    exit();
 }
 
 

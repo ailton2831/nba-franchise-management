@@ -1,7 +1,7 @@
 <?php 
 include("../../db.php");
 include("../../verificao_sessao.php");
-if($_SESSION['tipo'] !== "admin"){
+if($_SESSION['tipo'] !== "analista"){
     header("Location:../../index.php");
     exit();
 }

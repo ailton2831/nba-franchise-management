@@ -48,7 +48,15 @@ if($_POST){
     $sentencia-> bindParam(":id",$txtID);
     $sentencia-> bindParam(":temporada", $temporada);
     $sentencia->execute();
+
+    $_SESSION['alerta'] = [
+        'icon'  => 'success',
+        'title' => 'Atualizado!',
+        'text'  => 'As alterações foram guardadas com sucesso.'
+    ];
+
     header("Location:index.php");
+    exit();
 }
 
 

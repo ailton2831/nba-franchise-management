@@ -33,7 +33,15 @@ if($_POST){
     $sentencia-> bindParam(":placar_adv", $placar_adv);
     $sentencia-> bindParam(":temporada", $temporada);
     $sentencia->execute();
+    
+    $_SESSION['alerta'] = [
+        'icon'  => 'success',
+        'title' => 'Adicionado!',
+        'text'  => 'Novo registo criado com sucesso.'
+    ];
+
     header("Location:index.php");
+    exit();
 }
 
 

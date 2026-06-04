@@ -20,8 +20,15 @@ if($_POST){
     $sentencia-> bindParam(":status", $status);
     $sentencia-> bindParam(":id_staff", $id_staff);
     $sentencia->execute();
-    header("Location:index.php");
+
+    $_SESSION['alerta'] = [
+        'icon'  => 'success',
+        'title' => 'Adicionado!',
+        'text'  => 'Novo registo criado com sucesso.'
+    ];
     
+    header("Location:index.php");
+    exit();
 }
 
 function getEnumValues($pdo, $tabela, $coluna) {

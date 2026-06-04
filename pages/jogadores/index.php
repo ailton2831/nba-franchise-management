@@ -19,7 +19,17 @@ if(isset($_GET['txtID'])){
     $sentencia=$conexion->prepare("DELETE FROM jogadores WHERE id=:id");
     $sentencia-> bindParam(":id", $txtID);
     $sentencia->execute();
+    
+    
+    //alerta de sucesso
+    $_SESSION['alerta'] = [
+        'icon'  => 'success',
+        'title' => 'Eliminado!',
+        'text'  => 'O registo foi removido com sucesso.'
+    ];
+    
     header("Location:index.php");
+    exit();
 }
 
 $sentencia=$conexion->prepare("SELECT * FROM `jogadores`");
@@ -108,7 +118,7 @@ $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                                 name=""
                                 id=""
                                 class="btn btn-danger"
-                                href="index.php?txtID=<?php echo $registo['id'];?>"
+                                href="javascript:eliminar(<?php echo $registo['id'];?>);"
                                 role="button"
                                 >Delete</a
                                 >
@@ -123,6 +133,24 @@ $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
         
     </div>
 </div>
+<script>
+    function eliminar(id){
+        Swal.fire({
+            title: "Tem a certeza?",
+            text: "Esta ação irá remover o jogador permanentemente!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DA1A32", 
+            cancelButtonColor: "#17408B",  
+            confirmButtonText: "Sim, eliminar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed){
+                window.location="index.php?txtID="+id;
+            }
+        });
+    }
+</script>
 
 
 <?php include("../../template/footer.php");?>

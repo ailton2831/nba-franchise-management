@@ -32,7 +32,15 @@ if($_POST){
     $sentencia-> bindParam(":peso", $peso);
     $sentencia-> bindParam(":posicao", $posicao);
     $sentencia->execute();
+
+    $_SESSION['alerta'] = [
+        'icon'  => 'success',
+        'title' => 'Adicionado!',
+        'text'  => 'Novo registo criado com sucesso.'
+    ];
+    
     header("Location:index.php");
+    exit();
 }
 
 

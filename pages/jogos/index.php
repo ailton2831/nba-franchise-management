@@ -7,8 +7,14 @@ if(isset($_GET['txtID'])){
     $sentencia=$conexion->prepare("DELETE FROM jogo WHERE id=:id");
     $sentencia-> bindParam(":id", $txtID);
     $sentencia->execute();
+
+
+    $_SESSION['alerta'] = [
+        'icon'  => 'success',
+        'title' => 'Eliminado!',
+        'text'  => 'O registo foi removido com sucesso.'
+    ];
     
-    // Boa prática: redirecionar após eliminar para limpar o ID da URL
     header("Location:index.php");
     exit();
 }
@@ -85,7 +91,7 @@ $hoje = date('Y-m-d');
                                     </a>
                                 <?php endif; ?>
                                 <a class="btn btn-success btn-sm" href="update.php?txtID=<?php echo $registo['id'];?>" role="button">Update</a>
-                                <a class="btn btn-danger btn-sm" href="index.php?txtID=<?php echo $registo['id'];?>" role="button">Delete</a>
+                                <a class="btn btn-danger btn-sm" href="javascript:eliminar(<?php echo $registo['id'];?>);" role="button">Delete</a>
                             </td>
                         <?php endif; ?>
                     </tr>
@@ -95,5 +101,24 @@ $hoje = date('Y-m-d');
         </div>
     </div>
 </div>
+
+<script>
+    function eliminar(id){
+        Swal.fire({
+            title: "Tem a certeza?",
+            text: "Esta ação irá remover o jogo permanentemente!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DA1A32", 
+            cancelButtonColor: "#17408B",  
+            confirmButtonText: "Sim, eliminar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed){
+                window.location="index.php?txtID="+id;
+            }
+        });
+    }
+</script>
 
 <?php include("../../template/footer.php");?>

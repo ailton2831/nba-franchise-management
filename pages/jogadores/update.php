@@ -71,9 +71,14 @@ if($_POST){
         $sentencia-> bindParam(":foto", $nomeficheiro_foto);
         $sentencia->execute();
     }
-    
+    $_SESSION['alerta'] = [
+        'icon'  => 'success',
+        'title' => 'Atualizado!',
+        'text'  => 'As alterações foram guardadas com sucesso.'
+    ];
     
     header("Location:index.php");
+    exit();
 }
 
 

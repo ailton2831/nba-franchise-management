@@ -28,10 +28,23 @@
             "url":"https://cdn.datatables.net/plug-ins/1.13.1/i18n/pt-PT.json"
             }
         }
-
-
         );
 
+        //alerta para conclusao das acoes criar editar e eliminar
         </script>
+        <?php if (isset($_SESSION['alerta'])): ?>
+            <script>
+                Swal.fire({
+                    icon: '<?php echo $_SESSION['alerta']['icon']; ?>',
+                    title: '<?php echo $_SESSION['alerta']['title']; ?>',
+                    text: '<?php echo $_SESSION['alerta']['text']; ?>',
+                    confirmButtonColor: '#17408B' // Azul NBA para o botão de OK
+                });
+            </script>
+            <?php 
+            // Apaga a mensagem para não aparecer novamente no refresh
+            unset($_SESSION['alerta']); 
+            ?>
+        <?php endif; ?>
     </body>
 </html>

@@ -1,7 +1,7 @@
 <?php 
 include("../../db.php");
 include("../../verificao_sessao.php");
-if($_SESSION['tipo'] !== "admin"){
+if($_SESSION['tipo'] !== "admin" && $_SESSION['tipo'] !== "analista" ){
     header("Location:../../index.php");
     exit();
 }
@@ -11,8 +11,15 @@ if(isset($_GET['txtID'])){
     $sentencia=$conexion->prepare("DELETE FROM contrato WHERE id=:id");
     $sentencia-> bindParam(":id", $txtID);
     $sentencia->execute();
-    //$mensagem="Registo eliminado com sucesso";
-    //header("Location:index.php?mensagem=".$mensagem);
+
+    $_SESSION['alerta'] = [
+        'icon'  => 'success',
+        'title' => 'Eliminado!',
+        'text'  => 'O registo foi removido com sucesso.'
+    ];
+    
+    header("Location:index.php");
+    exit();
 }
 
 
@@ -68,7 +75,9 @@ $lista_contrato=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                         <th scope="col">Salario</th>
                         <th scope="col">Status</th>
                         <th scope="col"></th>
-                        <th scope="col">Ação</th>
+                        <?php if (isset($_SESSION['tipo']) && $_SESSION['tipo'] === 'admin'): ?>
+                            <th scope="col">Ação</th>
+                        <?php endif; ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -76,30 +85,31 @@ $lista_contrato=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                     <tr class="">
                         <td scope="row"><?php echo $registo['id'] ;?></td>
                         <td><?php echo $registo['nome'] ;?></td>
-                        <td><?php //echo $registo['tipo'] ;?></td>
+                        <td><?php echo $registo['tipo'] ;?></td>
                         <td><?php echo $registo['inicio'] ;?></td>
                         <td><?php echo $registo['fim'] ;?></td>
                         <td><?php echo $registo['salario'] ;?></td>
                         <td><?php echo $registo['status'] ;?></td>
-                        <td>
-                        <a
-                            name=""
-                            id=""
-                            class="btn btn-success"
-                            href="update.php?txtID=<?php echo $registo['id'];?>"
-                            role="button"
-                            >Update</a
-                        >
-                        <a
-                            name=""
-                            id=""
-                            class="btn btn-danger"
-                            href="index.php?txtID=<?php echo $registo['id'];?>"
-                            role="button"
-                            >Delete</a
-                        >
-                        
-                    </td>
+                        <?php if (isset($_SESSION['tipo']) && $_SESSION['tipo'] === 'admin'): ?>
+                            <td>
+                                <a
+                                name=""
+                                id=""
+                                class="btn btn-success"
+                                href="update.php?txtID=<?php echo $registo['id'];?>"
+                                role="button"
+                                >Update</a
+                                >
+                                <a
+                                name=""
+                                id=""
+                                class="btn btn-danger"
+                                href="javascript:eliminar(<?php echo $registo['id'];?>);"
+                                role="button"
+                                >Delete</a
+                                >
+                            </td>
+                        <?php endif; ?>
                     </tr>
 
                     <?php }?>
@@ -109,6 +119,25 @@ $lista_contrato=$sentencia->fetchAll(PDO::FETCH_ASSOC);
         
     </div>
 </div>
+
+<script>
+    function eliminar(id){
+        Swal.fire({
+            title: "Tem a certeza?",
+            text: "Esta ação irá remover o contrato permanentemente!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DA1A32", 
+            cancelButtonColor: "#17408B",  
+            confirmButtonText: "Sim, eliminar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed){
+                window.location="index.php?txtID="+id;
+            }
+        });
+    }
+</script>
 
 
 <?php include("../../template/footer.php");?>
