@@ -1,6 +1,7 @@
 <?php 
 include("../../db.php");
 
+
 //temporada da vida real
 if(date('m') < 10){
     $temporada_real = (date('Y') - 1) . '/' . date('Y');
@@ -96,7 +97,7 @@ $sentencia = $conexion->prepare("
     JOIN jogadores j ON c.id_jogador = j.id
     WHERE c.status = 'ativo' 
     AND  c.data_final >= :temporada_inicio 
-    AND c.data_inicio <= :temporada_final
+    AND c.data_inicio <= :temporada_fim
     AND c.id_jogador IS NOT NULL
 
     UNION ALL
@@ -119,6 +120,7 @@ $top5 = $sentencia->fetchAll(PDO::FETCH_ASSOC);
 
 
 $sentencia = $conexion->prepare("SELECT temporada FROM financas ORDER BY temporada DESC");
+$sentencia->execute();
 $temporadas = $sentencia->fetchAll(PDO::FETCH_ASSOC);
 
 
@@ -130,12 +132,12 @@ $temporadas = $sentencia->fetchAll(PDO::FETCH_ASSOC);
 
 <br/>
 
-<?php if(!empty($erro_validacao)): ?>
+<?php if(isset($erro_validacao) && !empty($erro_validacao)): ?>
     <div
         class="alert alert-danger"
         role="alert"
     >
-        <strong>Erro de entrada</strong> $erro_validacao
+        <strong>Erro de entrada</strong> <?= $erro_validacao ?>
     </div>
     
 <?php endif; ?>

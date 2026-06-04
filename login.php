@@ -2,30 +2,25 @@
 session_start();
 include("db.php");
 if($_POST){
-    print_r($_POST);
-
-
-
-    $sentencia=$conexion->prepare("SELECT *, count(*) as n_user FROM `users` WHERE user=:user AND password=:password");
+    $sentencia=$conexion->prepare("SELECT * FROM `users` WHERE user=:user LIMIT 1");
     $user=$_POST["user"];
     $password=$_POST["password"];
     $sentencia->bindParam(":user", $user);
-    $sentencia->bindParam(":password", $password);
     $sentencia->execute();
     $registo = $sentencia->fetch(PDO::FETCH_LAZY);
 
-    print_r($registo);
+    if($registo){
+        if (password_verify($password, $registo["password"])){
+            $_SESSION['user']=$registo['user'];
+            $_SESSION['tipo']=$registo['tipo'];
+            header("Location:index.php");
+        }else{
+            $mensagem= "Error: Utilizador ou password estão incorretos";
+        }
 
-    if($registo["n_user"]>0){
-        $_SESSION['user']=$registo['user'];
-        $_SESSION['tipo']=$registo['tipo'];
-        //$_SESSION["logado"]=true;
-        header("Location:index.php");
     }else{
-        $mensagem= "Error: Utilizador ou password estão incorretos";
+        $mensagem= "Error: Utilizador nao existe";
     }
-
-    print_r($registo);
 
 }
 
@@ -35,7 +30,7 @@ if($_POST){
 <!doctype html>
 <html lang="en" data-bs-theme="light">
     <head>
-        <title>Title</title>
+        <title>Gestão de Franquia NBA</title>
         <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -47,75 +42,71 @@ if($_POST){
             integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
             crossorigin="anonymous"
         />
+        <link href="style.css?v=<?= time() ?>" rel="stylesheet">
     </head>
 
-    <body>
+    <body class="login-page">
         <header>
             <!-- place navbar here -->
         </header>
         <main class="container">
-        <div class="row">
-            <div class="col-md-4      " >
-                
-            </div>
-            <div class="col-md-4      " >
-            </br></br>
-                <div class="card">
-                    <div class="card-header">Login</div>
-                    <div class="card-body">
-                        <?php if(isset($mensagem)){?>
-                        <div
-                            class="alert alert-primary"
-                            role="alert"
-                        >
-                            <strong><?php echo $mensagem?></strong> 
+            <div class="row justify-content-center min-vh-100 align-items-center">
+                <div class="col-md-4">
+                    <div class="text-center mb-4">
+                        <img src="imagens/nbalogo2.png" height="60">
+                        <h4 class="mt-2 fw-bold">NBA Franchise</h4>
+                        <p class="text-muted" style="font-size:13px">Gestão de franquia</p>
+                    </div>
+                    <div class="card shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="card">
+                                <div class="card-header">Login</div>
+                                <div class="card-body">
+                                    <?php if(isset($mensagem)){?>
+                                    <div
+                                        class="alert alert-danger"
+                                        role="alert"
+                                    >
+                                        <strong><?php echo $mensagem?></strong> 
+                                    </div>
+                                    <?php } ?>
+                                    <form action="" method="post">
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Username</label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                name="user"
+                                                id="user"
+                                                aria-describedby="helpId"
+                                                placeholder="Digite o username"
+                                            />
+
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Password</label>
+                                            <input
+                                                type="password"
+                                                class="form-control"
+                                                name="password"
+                                                id="password"
+                                                aria-describedby="helpId"
+                                                placeholder="Digite o password"
+                                            />
+                                        </div>
+                                        <button
+                                            type="submit"
+                                            class="btn btn-primary d-block mx-auto"
+                                        >
+                                            Entrar no sistema
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                        <?php } ?>
-                        <form action="" method="post">
-                            <div class="mb-3">
-                                <label for="" class="form-label">Utilizador</label>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    name="user"
-                                    id="user"
-                                    aria-describedby="helpId"
-                                    placeholder="Digite o nome do utlizador"
-                                />
-
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label">Password</label>
-                                <input
-                                    type="password"
-                                    class="form-control"
-                                    name="password"
-                                    id="password"
-                                    aria-describedby="helpId"
-                                    placeholder=""
-                                />
-
-                            </div>
-                            
-                            <button
-                                type="submit"
-                                class="btn btn-primary"
-                            >
-                                Entrar no sistema
-                            </button>
-                            
-                        </form>
-                        
                     </div>
                 </div>
-                
-                
             </div>
-        </div>
-            
-            
-
-
         </main>
         <footer>
             <!-- place footer here -->

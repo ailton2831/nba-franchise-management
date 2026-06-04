@@ -1,22 +1,45 @@
-/* style.css */
+/* ===== GERAL ===== */
 
 body {
     font-family: 'Inter', sans-serif;
     background-color: #f0f2f5;
     animation: fadeIn 0.3s ease;
+
+    /* ===== LOGIN ===== */
+
+
 }
 
-.card-accent-neutral, 
-.card-accent-mid {
-    border-top: 4px solid #000000;
-    border-radius: 10px;
+html {
+    scroll-behavior: smooth;
 }
+
+
+/* ===== Barra de navegaçao ===== */
+
+.navbar {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-dark .navbar-nav .nav-link.active {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #e0e0e0 !important;
+}
+
+
+/* ===== CARDS ===== */
 
 .card {
-    
-    border: none; 
+    border: none;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     transition: transform 0.2s;
+    animation: fadeInUp 0.4s ease;
 }
 
 .card:hover {
@@ -24,16 +47,23 @@ body {
     box-shadow: 0 8px 16px rgba(0,0,0,0.1);
 }
 
+.card-accent-primary {
+    border-top: 4px solid #0d6efd;
+    border-radius: 10px;
+}
+
 .card-accent-success {
     border-top: 4px solid #198754;
     border-radius: 10px;
 }
+
 .card-accent-danger {
     border-top: 4px solid #dc3545;
     border-radius: 10px;
 }
-.card-accent-primary {
-    border-top: 4px solid #0d6efd;
+
+.card-accent-warning {
+    border-top: 4px solid #ffc107;
     border-radius: 10px;
 }
 
@@ -42,9 +72,28 @@ body {
     border-radius: 10px;
 }
 
-.card-accent-mid{
+.card-accent-mid {
     border-top: 4px solid #000000;
     border-radius: 10px;
+}
+
+
+/* ===== LÍDERES ===== */
+
+.lider-card:hover {
+    transform: translateY(-4px);
+}
+
+.lider-pts { border-left: 5px solid #17408B; }
+.lider-ast { border-left: 5px solid #198754; }
+.lider-reb { border-left: 5px solid #ffc107; }
+
+
+/* ===== TABELAS ===== */
+
+.table {
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .table thead th {
@@ -56,12 +105,24 @@ body {
     letter-spacing: 0.05em;
 }
 
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f8f9fa;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #e9ecef !important;
+}
+
+
+/* ===== BOTÕES ===== */
+
 .btn {
     border-radius: 15px;
     padding: 6px 20px;
-}
-
-.btn {
     transition: all 0.2s ease-in-out;
 }
 
@@ -71,6 +132,27 @@ body {
 }
 
 
+/* ===== BADGES ===== */
+
+.badge-winner {
+    background-color: #a5ff8c !important;
+    color: #133807 !important;
+    font-weight: bold;
+}
+
+.badge-loser {
+    background-color: #ff8c8c !important;
+    color: #4a0d0d !important;
+    font-weight: bold;
+}
+
+
+/* ===== ANIMAÇÕES ===== */
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
 
 @keyframes fadeInUp {
     from {
@@ -83,98 +165,96 @@ body {
     }
 }
 
-.card {
-    animation: fadeInUp 0.4s ease;
+/* ===== ESTILIZAÇAO DE LOGIN ===== */
+
+.login-page {
+    background-color: #17408B; 
+}
+
+/* fundo azul na página de login */
+.login-page {
+    background-color: #17408B !important;
+}
+
+/* titulo em branco */
+.login-page .text-center.mb-4 h4 {
+    color: #ffffff !important;
+    font-size: 1.6rem;
+    letter-spacing: 0.5px;
+}
+
+/* subtitlo */
+.login-page .text-center.mb-4 p.text-muted {
+    color: rgba(255, 255, 255, 0.6) !important;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+/* Card Exterior  */
+.login-page .card.shadow-sm {
+    border-radius: 16px !important;
+    border: none !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25) !important;
+    background-color: #f0f2f5 !important;
 }
 
 
-.lider-card:hover {
-    transform: translateY(-4px);
+
+/* Cancela o efeito de "subir" no hover apenas para os cards do login */
+.login-page .card:hover, 
+.login-page .card-body .card:hover {
+    transform: none !important;
+    box-shadow: none !important;
 }
 
-html {
-    scroll-behavior: smooth;
+/* cabeçalho login */
+.login-page .card-header {
+    background: transparent !important;
+    border-bottom: none !important;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #17408B;
+    padding-top: 10px;
+    padding-bottom: 20px;
 }
 
-body {
-    animation: fadeIn 0.3s ease;
+/* caixas de input (Username e Password) */
+.login-page .form-control {
+    border-radius: 8px !important;
+    padding: 10px 14px !important;
+    border: 1px solid #f0f2f5 !important;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+.login-page .card-body .card {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
 }
 
-.table-striped tbody tr:nth-child(odd) {
-    background-color: #f8f9fa;
+/* Efeito de foco azul nos inputs */
+.login-page .form-control:focus {
+    border-color: #17408B !important;
+    box-shadow: 0 0 0 4px rgba(23, 64, 139, 0.15) !important;
 }
 
-/* Cor do link quando está na página atual */
-.navbar-dark .navbar-nav .nav-link.active {
-    color: #ffffff !important; /* Branco total */
-    background-color: rgba(255, 255, 255, 0.15); /* Um fundo levemente clareado */
-    border-radius: 4px; /* Cantos arredondados no fundo */
-    font-weight: 600; /* Texto em negrito para destacar */
+/* Botao  */
+.login-page .btn-primary {
+    background-color: #DA1A32 !important;
+    border-color: #DA1A32 !important;
+    width: 100% !important; /* Força o botão a ocupar 100% da largura do card */
+    border-radius: 50px !important; /* Deixa o botão arredondado (pill) */
+    padding: 10px 20px !important;
+    font-weight: 600 !important;
+    font-size: 16px !important;
+    box-shadow: 0 4px 10px rgba(218, 26, 50, 0.2) !important;
+    transition: all 0.2s ease-in-out !important;
 }
 
-/* Efeito opcional ao passar o mouse nos outros itens */
-.navbar-dark .navbar-nav .nav-link:hover {
-    color: #e0e0e0 !important;
-}
-
-.table tbody tr {
-    transition: background-color 0.2s ease;
-}
-
-.table tbody tr:hover {
-    background-color: #e9ecef !important; /* Cor levemente mais escura ao passar o rato */
-}
-
-/* Borda arredondada na tabela para um visual mais limpo */
-.table {
-    border-radius: 10px;
-    overflow: hidden; /* Mantém os cantos redondos mesmo com o header */
-}
-
-.navbar {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-
-/* Personalização da barra de rolagem (Funciona no Chrome, Edge, Safari) */
-::-webkit-scrollbar {
-    width: 10px;
-}
-
-::-webkit-scrollbar-track {
-    background: #f0f2f5; 
-}
-
-::-webkit-scrollbar-thumb {
-    background: #17408B; /* Azul do seu header */
-    border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #112d62; /* Azul mais escuro ao passar o rato */
-}
-
-.lider-pts { border-left: 5px solid #17408B; } /* Azul */
-.lider-ast { border-left: 5px solid #198754; } /* Verde */
-.lider-reb { border-left: 5px solid #ffc107; } /* Ouro/Laranja */
-
-.card-accent-warning {
-    border-top: 4px solid #ffc107;
-    border-radius: 10px;
-}
-.badge-winner {
-    background-color: #a5ff8c !important;
-    color: #133807 !important; /* Verde escuro para contraste */
-    font-weight: bold;
-}
-
-.badge-loser {
-    background-color: #ff8c8c !important;
-    color: #4a0d0d !important; /* Vermelho escuro para contraste */
-    font-weight: bold;
+/* Efeito de hover no botão vermelho */
+.login-page .btn-primary:hover {
+    background-color: #b81427 !important;
+    border-color: #b81427 !important;
+    transform: translateY(-2px) !important; /* Faz o botão subir ligeiramente */
+    box-shadow: 0 6px 15px rgba(218, 26, 50, 0.35) !important;
 }

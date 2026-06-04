@@ -1,19 +1,33 @@
 <?php 
 include("../../db.php");
 
+function definirTemporada(DateTime $data) {
+
+    if ((int)$data->format('m') < 10) {
+        $temporada = ($data->format('Y') - 1) . '/' . $data->format('Y');
+    } else {
+        $temporada = $data->format('Y') . '/' . ($data->format('Y') + 1);
+    }
+    return $temporada; 
+}
+
 if($_POST){
     $data = (isset($_POST["data"])?$_POST["data"]:"");
     $adv = (isset($_POST["adversario"])?$_POST["adversario"]:"");
     $local = (isset($_POST["local"])?$_POST["local"]:"");
     $placar = (isset($_POST["placar"])?$_POST["placar"]:0);
     $placar_adv = (isset($_POST["placar_adv"])?$_POST["placar_adv"]:0);
+    
+    $dataObjeto = new DateTime($data); 
+    $temporada = definirTemporada($dataObjeto);
 
-    $sentencia=$conexion->prepare("INSERT INTO jogo (id,data,adversario,local,placar,placar_adv) VALUES (null, :data,:adversario,:local,:placar,:placar_adv )");
+    $sentencia=$conexion->prepare("INSERT INTO jogo (id,data,adversario,local,placar,placar_vs,temporada) VALUES (null, :data,:adversario,:local,:placar,:placar_adv,:temporada )");
     $sentencia-> bindParam(":data", $data);
     $sentencia-> bindParam(":adversario", $adv);
     $sentencia-> bindParam(":local", $local);
     $sentencia-> bindParam(":placar", $placar);
     $sentencia-> bindParam(":placar_adv", $placar_adv);
+    $sentencia-> bindParam(":temporada", $temporada);
     $sentencia->execute();
     header("Location:index.php");
 }

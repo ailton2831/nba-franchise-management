@@ -15,7 +15,7 @@ $uri = $_SERVER['REQUEST_URI'];
 <!doctype html>
 <html lang="en">
     <head>
-        <title>ProjetoFinal</title>
+        <title>Gestão de Franquia NBA</title>
         <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta
@@ -53,7 +53,7 @@ $uri = $_SERVER['REQUEST_URI'];
             <!-- place navbar here -->
         </header>
         <nav class="navbar navbar-expand navbar-dark" style="background-color: #17408B;">
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav w-100">
             <li class="nav-item">
                 <img src="<?= $url_base ?>imagens/nbalogo2.png" height="40" class="ms-3 me-2">
             </li>
@@ -90,16 +90,16 @@ $uri = $_SERVER['REQUEST_URI'];
             <?php //} ?>
             <?php //} ?>
                         
-                        <li class="nav-item">
+                        <li class="nav-item ms-auto me-3">
                 <a class="nav-link" href="<?php echo $url_base;?>logout.php">Logout</a>
             </li>
         </ul>
     </nav>
         <main class="container">
             <br/>
-            <?php if(isset($erro_validacao)): ?>
+            <?php if(isset($erro_validacao) && !empty($erro_validacao)): ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>Erro!</strong> <?= $erro_validacao ?>
-                    <button type="text" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?>

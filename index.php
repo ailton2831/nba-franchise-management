@@ -17,7 +17,9 @@ $totaljogador = $total['total_jogador'] ?? 0;
 
 //total win
 $sentencia = $conexion -> prepare ("SELECT COUNT(*) AS total_vitoria FROM jogo
-                                    WHERE placar > placar_vs");
+                                    WHERE placar > placar_vs
+                                    AND temporada = :temporada_real");
+$sentencia -> bindParam(":temporada_real", $temporada_real);
 $sentencia -> execute();
 $total = $sentencia->fetch(PDO::FETCH_ASSOC);
 $total_vitoria = $total['total_vitoria'] ?? 0;
@@ -25,24 +27,28 @@ $total_vitoria = $total['total_vitoria'] ?? 0;
 
 //total derrota
 $sentencia = $conexion -> prepare ("SELECT COUNT(*) AS total_derrota FROM jogo
-                                    WHERE placar < placar_vs");
+                                    WHERE placar < placar_vs
+                                    AND temporada = :temporada_real");
+$sentencia -> bindParam(":temporada_real", $temporada_real);
 $sentencia -> execute();
 $total = $sentencia->fetch(PDO::FETCH_ASSOC);
 $total_derrota = $total['total_derrota'] ?? 0;
 
 //proximo jogo
 $sentencia = $conexion->prepare("SELECT * FROM jogo 
-                                    WHERE data >= CURDATE() 
+                                    WHERE data >= CURDATE()AND temporada = :temporada_real
                                     ORDER BY data ASC 
                                     LIMIT 1");
+$sentencia -> bindParam(":temporada_real", $temporada_real);
 $sentencia->execute();
 $proximo_jogo = $sentencia->fetch(PDO::FETCH_ASSOC); 
 
 // Últimos 5 jogos
 $sentencia = $conexion->prepare("SELECT * FROM jogo 
-                                WHERE data < CURDATE() 
+                                WHERE data < CURDATE() AND temporada = :temporada_real
                                 ORDER BY data DESC 
                                 LIMIT 5");
+$sentencia -> bindParam(":temporada_real", $temporada_real);
 $sentencia->execute();
 $ultimos_jogos = $sentencia->fetchAll(PDO::FETCH_ASSOC);
 
@@ -95,28 +101,28 @@ $win_pct = ($total_vitoria + $total_derrota) > 0
 
 <div class="row g-3 mb-4 justify-content-center">
     <div class="col-6 col-md-3">
-        <div class="card card-accent-neutral shadow-sm p-3">
+        <div class="card card-accent-neutral shadow-sm p-3 text-center">
             <p class="text-muted mb-1" style="font-size:13px">Total Jogadores</p>
             <h5 class="text-dark fw-bold mb-0"><?= $totaljogador ?></h5>
             <small class="text-muted">na equipe</small>
         </div>
     </div>
     <div class="col-6 col-md-3">
-        <div class="card card-accent-success shadow-sm p-3">
+        <div class="card card-accent-success shadow-sm p-3 text-center">
             <p class="text-muted mb-1" style="font-size:13px">Vitórias</p>
             <h5 class="text-success fw-bold mb-0"><?= $total_vitoria ?></h5>
             <small class="text-muted">na temporada</small>
         </div>
     </div>
     <div class="col-6 col-md-3">
-        <div class="card card-accent-danger shadow-sm p-3">
+        <div class="card card-accent-danger shadow-sm p-3 text-center">
             <p class="text-muted mb-1" style="font-size:13px">Derrotas</p>
             <h5 class="text-danger fw-bold mb-0"><?= $total_derrota ?></h5>
             <small class="text-muted">na temporada</small>
         </div>
     </div>
     <div class="col-6 col-md-3">
-        <div class="card card-accent-primary shadow-sm p-3">
+        <div class="card card-accent-primary shadow-sm p-3 text-center">
             <p class="text-muted mb-1" style="font-size:13px">% Vitórias</p>
             <h5 class="text-primary fw-bold mb-0"><?= $win_pct ?>%</h5>
             <small class="text-muted">win rate</small>
