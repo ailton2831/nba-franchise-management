@@ -1,5 +1,6 @@
 <?php
 include("../../db.php");
+include("../../verificao_sessao.php");
 
 if(isset($_GET['txtID'])){
     $txtID = (isset($_GET['txtID'])?$_GET['txtID']:"");
@@ -63,7 +64,9 @@ $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                         <th scope="col">Altura</th>
                         <th scope="col">Idade</th>
                         <th scope="col"></th>
-                        <th scope="col">Ação</th>
+                        <?php if (isset($_SESSION['tipo']) && $_SESSION['tipo'] === 'admin'): ?>
+                            <th scope="col">Ação</th>
+                        <?php endif; ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,25 +94,26 @@ $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                         <td><?php echo $registo['peso'] ;?></td>
                         <td><?php echo $registo['altura'] ;?></td>
                         <td><?php echo $idade ;?></td>
-                        <td>
-                        <a
-                            name=""
-                            id=""
-                            class="btn btn-success"
-                            href="update.php?txtID=<?php echo $registo['id'];?>"
-                            role="button"
-                            >Update</a
-                        >
-                        <a
-                            name=""
-                            id=""
-                            class="btn btn-danger"
-                            href="index.php?txtID=<?php echo $registo['id'];?>"
-                            role="button"
-                            >Delete</a
-                        >
-                        
-                    </td>
+                        <?php if (isset($_SESSION['tipo']) && $_SESSION['tipo'] === 'admin'): ?>
+                            <td>
+                                <a
+                                name=""
+                                id=""
+                                class="btn btn-success"
+                                href="update.php?txtID=<?php echo $registo['id'];?>"
+                                role="button"
+                                >Update</a
+                                >
+                                <a
+                                name=""
+                                id=""
+                                class="btn btn-danger"
+                                href="index.php?txtID=<?php echo $registo['id'];?>"
+                                role="button"
+                                >Delete</a
+                                >
+                            </td>
+                        <?php endif; ?>
                     </tr>
 
                     <?php }?>

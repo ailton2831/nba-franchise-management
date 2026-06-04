@@ -1,5 +1,6 @@
 <?php 
 include("../../db.php");
+include("../../verificao_sessao.php");
 
 $lista_stats = []; 
 $tem_stats = false;
@@ -34,7 +35,7 @@ if(isset($_GET['txtID'])){
 <br/>
 <div class="card">
     <div class="card-header">
-        <?php //if ($_SESSION['perfil'] === 'admin'): ?>
+        <?php if ($_SESSION['perfil'] === 'admin'): ?>
             <?php if ($tem_stats): ?>
                 <a
                 name=""
@@ -50,7 +51,7 @@ if(isset($_GET['txtID'])){
                 href="../stats/create.php?txtID=<?php echo $txtID;?>"
                 role="button">Adicionar Estatistica</a>
             <?php endif; ?>
-        <?php //endif; ?>
+        <?php endif; ?>
     </div>
     <div class="card-body">
         <div

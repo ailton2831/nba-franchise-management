@@ -1,5 +1,6 @@
 <?php 
 include("../../db.php");
+include("../../verificao_sessao.php");
 
 if(isset($_GET['txtID'])){
     $txtID = (isset($_GET['txtID'])?$_GET['txtID']:"");
@@ -38,7 +39,9 @@ $hoje = date('Y-m-d');
                         <th scope="col">Placar</th>
                         <th scope="col">Resultado</th>
                         <th scope="col">Temporada</th>
-                        <th scope="col" style="text-align: right;">Ações</th>
+                        <?php if (isset($_SESSION['tipo']) && $_SESSION['tipo'] === 'admin'): ?>
+                            <th scope="col" style="text-align: right;">Ações</th>
+                        <?php endif; ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -74,17 +77,17 @@ $hoje = date('Y-m-d');
                         </td>
                         
                         <td><?php echo $registo['temporada'] ;?></td>
-                        
-                        <td style="text-align: right;">
-                            <?php if ($registo['data'] <= $hoje && $registo['placar'] !== null): ?>
-                                <a href="boxscore.php?txtID=<?php echo $registo['id'];?>" class="btn btn-primary btn-sm" role="button">
-                                    Box score
-                                </a>
-                            <?php endif; ?>
-                            
-                            <a class="btn btn-success btn-sm" href="update.php?txtID=<?php echo $registo['id'];?>" role="button">Update</a>
-                            <a class="btn btn-danger btn-sm" href="index.php?txtID=<?php echo $registo['id'];?>" role="button">Delete</a>
-                        </td>
+                        <?php if (isset($_SESSION['tipo']) && $_SESSION['tipo'] === 'admin'): ?>
+                            <td style="text-align: right;">
+                                <?php if ($registo['data'] <= $hoje && $registo['placar'] !== null): ?>
+                                    <a href="boxscore.php?txtID=<?php echo $registo['id'];?>" class="btn btn-primary btn-sm" role="button">
+                                        Box score
+                                    </a>
+                                <?php endif; ?>
+                                <a class="btn btn-success btn-sm" href="update.php?txtID=<?php echo $registo['id'];?>" role="button">Update</a>
+                                <a class="btn btn-danger btn-sm" href="index.php?txtID=<?php echo $registo['id'];?>" role="button">Delete</a>
+                            </td>
+                        <?php endif; ?>
                     </tr>
                     <?php } ?>
                 </tbody>

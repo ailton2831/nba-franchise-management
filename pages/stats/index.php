@@ -1,6 +1,6 @@
 <?php 
 include("../../db.php");
-
+include("../../verificao_sessao.php");
 
 
 $sentencia=$conexion->prepare("SELECT j.nome, 

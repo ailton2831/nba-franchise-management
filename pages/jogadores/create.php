@@ -1,6 +1,10 @@
 <?php 
 include("../../db.php");
-
+include("../../verificao_sessao.php");
+if($_SESSION['tipo'] !== "admin"){
+    header("Location:../../index.php");
+    exit();
+}
 if($_POST){
     $nome = (isset($_POST["nome"])?$_POST["nome"]:"");
     $numero = (isset($_POST["numero"])?$_POST["numero"]:"");
