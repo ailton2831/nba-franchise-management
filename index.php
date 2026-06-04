@@ -1,6 +1,6 @@
 <?php
 include("db.php");
-include("../../verificao_sessao.php");
+include("verificao_sessao.php");
 
 if(date('m') < 10){
     $temporada_real = (date('Y') - 1) . '/' . date('Y');
