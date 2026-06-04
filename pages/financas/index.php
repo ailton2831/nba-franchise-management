@@ -143,7 +143,7 @@ $temporadas = $sentencia->fetchAll(PDO::FETCH_ASSOC);
 <?php endif; ?>
 
 <?php if($teto_excedido): ?>
-<div class="card border-0 bg-danger bg-opacity-10 text-danger p-3 mb-4 d-flex flex-row align-items-center gap-3" style="border-radius: 12px;">
+<div class="card border-0 bg-danger bg-opacity-10 text-danger p-3 mb-4 d-flex flex-row align-items-center gap-3 " style="border-radius: 12px;">
     <span style="font-size: 24px;"></span>
     <div>
         <h6 class="mb-1 fw-bold">Alerta de Luxury Tax</h6>
@@ -169,28 +169,28 @@ $temporadas = $sentencia->fetchAll(PDO::FETCH_ASSOC);
 <!-- Cards de métricas -->
 <div class="row g-3 mb-4">
     <div class="col-6 col-md-3">
-        <div class="card card-accent-primary shadow-sm p-3">
+        <div class="card card-accent-primary shadow-sm p-3 text-center">
             <p class="text-muted mb-1" style="font-size:13px">Salary cap</p>
             <h5 class="text-primary mb-0">$<?= number_format($salary_cap, 0, ',', '.') ?></h5>
             <small class="text-muted">limite suave</small>
         </div>
     </div>
     <div class="col-6 col-md-3">
-        <div class="card card-accent-neutral shadow-sm p-3">
+        <div class="card card-accent-neutral shadow-sm p-3 text-center">
             <p class="text-muted mb-1" style="font-size:13px">Luxury Tax</p>
             <h5 class="mb-0">$<?= number_format($teto_salarial, 0, ',', '.') ?></h5>
             <small class="text-muted">limite máximo</small>
         </div>
     </div>
     <div class="col-6 col-md-3">
-        <div class="card card-accent-warning shadow-sm p-3">
+        <div class="card card-accent-warning shadow-sm p-3 text-center">
             <p class="text-muted mb-1" style="font-size:13px">Total comprometido</p>
             <h5 class="text-warning mb-0">$<?= number_format($total_comprometido, 0, ',', '.') ?></h5>
             <small class="text-muted">contratos ativos</small>
         </div>
     </div>
     <div class="col-6 col-md-3">
-        <div class="card card-accent-success shadow-sm p-3 <?= $teto_excedido ? 'border border-danger' : '' ?>">
+        <div class="card card-accent-success shadow-sm p-3 text-center <?= $teto_excedido ? 'border border-danger' : '' ?>">
             <p class="text-muted mb-1" style="font-size:13px">Espaço disponível</p>
             <h5 class="<?= $teto_excedido ? 'text-danger' : 'text-success' ?> mb-0">
                 $<?= number_format(abs($espaco_disponivel), 0, ',', '.') ?>
