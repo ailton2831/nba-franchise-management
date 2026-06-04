@@ -34,17 +34,17 @@ if($_POST){
     $data = (isset($_POST["data"])?$_POST["data"]:"");
     $local = (isset($_POST["local"])?$_POST["local"]:"");
     $placar = (isset($_POST["placar"])?$_POST["placar"]:"");
-    $placar_adv = (isset($_POST["placar_adv"])?$_POST["placar_adv"]:"");
+    $placar_adv = (isset($_POST["placar_vs"])?$_POST["placar_vs"]:"");
     $adv = (isset($_POST["adversario"])?$_POST["adversario"]:"");
     $dataObjeto = new DateTime($data); 
     $temporada = definirTemporada($dataObjeto);
 
-    $sentencia=$conexion->prepare("UPDATE jogo SET data=:data, local=:local, placar=:placar, adversario=:adversario, placar_vs=:placar_adv, temporada=:temporada WHERE id=:id");
+    $sentencia=$conexion->prepare("UPDATE jogo SET data=:data, local=:local, placar=:placar, adversario=:adversario, placar_vs=:placar_vs, temporada=:temporada WHERE id=:id");
     $sentencia-> bindParam(":data", $data);
     $sentencia-> bindParam(":adversario", $adv);
     $sentencia-> bindParam(":local", $local);
     $sentencia-> bindParam(":placar", $placar);
-    $sentencia-> bindParam(":placar_adv", $placar_adv);
+    $sentencia-> bindParam(":placar_vs", $placar_adv);
     $sentencia-> bindParam(":id",$txtID);
     $sentencia-> bindParam(":temporada", $temporada);
     $sentencia->execute();
@@ -147,9 +147,9 @@ function getEnumValues($pdo, $tabela, $coluna) {
                 <input
                     type="int"
                     class="form-control"
-                    name="placar_adv"
+                    name="placar_vs"
                     value="<?php echo $placar_adv?>"
-                    id="placar_adv"
+                    id="placar_vs"
                     aria-describedby="helpId"
                     placeholder="placar adversario"
                 />

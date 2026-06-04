@@ -20,17 +20,17 @@ if($_POST){
     $adv = (isset($_POST["adversario"])?$_POST["adversario"]:"");
     $local = (isset($_POST["local"])?$_POST["local"]:"");
     $placar = (isset($_POST["placar"])?$_POST["placar"]:0);
-    $placar_adv = (isset($_POST["placar_adv"])?$_POST["placar_adv"]:0);
+    $placar_adv = (isset($_POST["placar_vs"])?$_POST["placar_vs"]:0);
     
     $dataObjeto = new DateTime($data); 
     $temporada = definirTemporada($dataObjeto);
 
-    $sentencia=$conexion->prepare("INSERT INTO jogo (id,data,adversario,local,placar,placar_vs,temporada) VALUES (null, :data,:adversario,:local,:placar,:placar_adv,:temporada )");
+    $sentencia=$conexion->prepare("INSERT INTO jogo (id,data,adversario,local,placar,placar_vs,temporada) VALUES (null, :data,:adversario,:local,:placar,:placar_vs,:temporada )");
     $sentencia-> bindParam(":data", $data);
     $sentencia-> bindParam(":adversario", $adv);
     $sentencia-> bindParam(":local", $local);
     $sentencia-> bindParam(":placar", $placar);
-    $sentencia-> bindParam(":placar_adv", $placar_adv);
+    $sentencia-> bindParam(":placar_vs", $placar_adv);
     $sentencia-> bindParam(":temporada", $temporada);
     $sentencia->execute();
     
@@ -117,8 +117,8 @@ function getEnumValues($pdo, $tabela, $coluna) {
                 <input
                     type="number"
                     class="form-control"
-                    name="placar_adv"
-                    id="placar_adv"
+                    name="placar_vs"
+                    id="placar_vs"
                     min="0"
                     aria-describedby="helpId"
                     placeholder="Placar adversario"

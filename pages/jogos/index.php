@@ -61,7 +61,7 @@ $hoje = date('Y-m-d');
                         <td>
                             <?php 
                             if ($registo['data'] <= $hoje && $registo['placar'] !== null) {
-                                echo $registo['placar'] . ' - ' . $registo['placar_adv'];
+                                echo $registo['placar'] . ' - ' . $registo['placar_vs'];
                             } else {
                                 echo '<span class="text-muted">TBD</span>';
                             }
@@ -71,7 +71,7 @@ $hoje = date('Y-m-d');
                         <td>
                             <?php 
                             if ($registo['data'] <= $hoje && $registo['placar'] !== null) {
-                                if ($registo['placar'] > $registo['placar_adv']) { 
+                                if ($registo['placar'] > $registo['placar_vs']) { 
                                     echo '<span class="badge badge-winner">W</span>'; 
                                 } else {
                                     echo '<span class="badge badge-loser">L</span>'; 

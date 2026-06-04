@@ -96,8 +96,8 @@ $win_pct = ($total_vitoria + $total_derrota) > 0
 
 <?php include("template/header.php");?>
 
-<div class="text-center my-4">
-    <h3>Temporada <?php echo $temporada_real ?></h3>
+<div class="card card-welcome p-3 shadow-sm mb-3">
+    <h5 class="text-white fw-bold mb-0"> Olá, <?= htmlspecialchars($_SESSION['user']); ?>!</h5>
 </div>
 
 <div class="row g-3 mb-4 justify-content-center">
@@ -161,14 +161,14 @@ $win_pct = ($total_vitoria + $total_derrota) > 0
             <?php else: ?>
                 <div class="d-flex flex-column gap-2">
                     <?php foreach($ultimos_jogos as $jogo): ?>
-                        <?php $vitoria = $jogo['placar'] > $jogo['placar_adv']; ?>
+                        <?php $vitoria = $jogo['placar'] > $jogo['placar_vs']; ?>
                         <div class="d-flex align-items-center gap-3">
                             <span class="badge <?= $vitoria ? 'badge-winner' : 'badge-loser' ?>" 
                                     style="width:30px;text-align:center">
                                 <?= $vitoria ? 'V' : 'D' ?>
                             </span>
                             <span class="fw-semibold" style="font-size:13px">
-                                <?= $jogo['placar'] ?>-<?= $jogo['placar_adv'] ?>
+                                <?= $jogo['placar'] ?>-<?= $jogo['placar_vs'] ?>
                             </span>
                             <span class="text-muted" style="font-size:13px">
                                 vs <?= htmlspecialchars($jogo['adversario']) ?>
