@@ -1,7 +1,7 @@
 <?php 
 include("../../db.php");
 include("../../verificao_sessao.php");
-if($_SESSION['tipo'] !== "analista"){
+if($_SESSION['tipo'] !== "GM"){
     header("Location:../../index.php");
     exit();
 }
@@ -205,9 +205,59 @@ $temporadas = $sentencia->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
-<!-- Formulário + Top 5 -->
+<!-- Gráfico + Formulário + Top 5 -->
 <div class="row g-4">
-    <div class="col-md-5">
+
+    <!-- gráfico + formulário -->
+    <div class="col-md-5 d-flex flex-column gap-4">
+
+        <!-- Card Piechart -->
+        <div class="card p-3">
+            <p class="text-uppercase text-muted mb-2" style="font-size:12px;font-weight:600">Distribuição Salary Cap</p>
+
+            <?php if($teto_salarial <= 0): ?>
+                <!-- Empty state: cap não definido -->
+                <div class="d-flex flex-column align-items-center justify-content-center py-4 text-muted">
+                    <span style="font-size:36px">📋</span>
+                    <p class="mb-0 mt-2 small text-center">Cap não definido para esta temporada.<br>Configure os valores abaixo.</p>
+                </div>
+
+            <?php elseif($total_comprometido <= 0): ?>
+                <!-- Empty state: sem salários ativos -->
+                <div class="d-flex flex-column align-items-center justify-content-center py-4 text-muted">
+                    <span style="font-size:36px">💼</span>
+                    <p class="mb-0 mt-2 small text-center">Nenhum salário ativo nesta temporada.<br>Adicione contratos para visualizar o gráfico.</p>
+                </div>
+
+            <?php else: ?>
+                <!-- Gráfico Piechart -->
+                <div id="piechart" style="width:100%;height:260px;"></div>
+                <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                <script type="text/javascript">
+                google.charts.load('current', {'packages':['corechart']});
+                google.charts.setOnLoadCallback(drawChart);
+                function drawChart() {
+                    var data = google.visualization.arrayToDataTable([
+                        ['Categoria', 'Valor'],
+                        ['Total comprometido', <?= (float)$total_comprometido ?>],
+                        ['Espaço disponível',  <?= max(0, (float)$espaco_disponivel) ?>]
+                    ]);
+                    var options = {
+                        title: 'Salary Cap <?= htmlspecialchars($temporada_atual) ?>',
+                        pieHole: 0.4,
+                        colors: ['#f0ad4e', '#198754'],
+                        legend: { position: 'bottom' },
+                        chartArea: { width: '90%', height: '75%' },
+                        backgroundColor: 'transparent'
+                    };
+                    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                    chart.draw(data, options);
+                }
+                </script>
+            <?php endif; ?>
+        </div>
+
+        <!-- Card do Formulário -->
         <div class="card p-3">
             <p class="text-uppercase text-muted mb-3" style="font-size:12px;font-weight:600">Definir cap da temporada</p>
             <form method="POST" action="">
@@ -215,20 +265,19 @@ $temporadas = $sentencia->fetchAll(PDO::FETCH_ASSOC);
                     <label class="form-label">Temporada</label>
                     <input type="text" name="temporada" class="form-control"
                             value="<?= $financas['temporada'] ?? '' ?>"
-                            placeholder="ex: 2024/2025" 
+                            placeholder="ex: 2024/2025"
                             pattern="\d{4}/\d{4}" required>
-    
                 </div>
                 <div class="row g-2 mb-3">
                     <div class="col">
                         <label class="form-label">Salary cap ($)</label>
                         <input type="number" name="salary_cap" class="form-control"
-                            value="<?= $salary_cap ?>" min="0" required>
+                                value="<?= $salary_cap ?>" min="0" required>
                     </div>
                     <div class="col">
                         <label class="form-label">Luxury Tax ($)</label>
                         <input type="number" name="teto_salarial" class="form-control"
-                            value="<?= $teto_salarial ?>" min="0" required>
+                                value="<?= $teto_salarial ?>" min="0" required>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Guardar</button>
@@ -236,33 +285,44 @@ $temporadas = $sentencia->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
+    <!-- Coluna direita: Top 5 -->
     <div class="col-md-7">
         <div class="card p-3">
             <p class="text-uppercase text-muted mb-3" style="font-size:12px;font-weight:600">Top 5 maiores salários</p>
-            <table class="table table-hover mb-0">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Nome</th>
-                        <th>Tipo</th>
-                        <th class="text-end">Salário anual</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach($top5 as $i => $registo): ?>
-                    <tr>
-                        <td class="text-muted"><?= $i + 1 ?></td>
-                        <td><?= htmlspecialchars($registo['nome']) ?></td>
-                        <td>
-                            <span class="badge" style="font-size:11px;background:<?= $registo['tipo'] === 'Jogador' ? '#e7f1fb' : '#f0f7ea' ?>;color:<?= $registo['tipo'] === 'Jogador' ? '#0c447c' : '#27500a' ?>">
-                                <?= $registo['tipo'] ?>
-                            </span>
-                        </td>
-                        <td class="text-end fw-semibold">$<?= number_format($registo['salario'], 0, ',', '.') ?></td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+
+            <?php if(empty($top5)): ?>
+                <!-- Empty state: sem salários -->
+                <div class="d-flex flex-column align-items-center justify-content-center py-5 text-muted">
+                    <span style="font-size:40px">🏀</span>
+                    <p class="mb-0 mt-2 small text-center">Nenhum contrato ativo encontrado<br>para a temporada <strong><?= htmlspecialchars($temporada_atual) ?></strong>.</p>
+                </div>
+
+            <?php else: ?>
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nome</th>
+                            <th>Tipo</th>
+                            <th class="text-end">Salário anual</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($top5 as $i => $registo): ?>
+                        <tr>
+                            <td class="text-muted"><?= $i + 1 ?></td>
+                            <td><?= htmlspecialchars($registo['nome']) ?></td>
+                            <td>
+                                <span class="badge" style="font-size:11px;background:<?= $registo['tipo'] === 'Jogador' ? '#e7f1fb' : '#f0f7ea' ?>;color:<?= $registo['tipo'] === 'Jogador' ? '#0c447c' : '#27500a' ?>">
+                                    <?= $registo['tipo'] ?>
+                                </span>
+                            </td>
+                            <td class="text-end fw-semibold">$<?= number_format($registo['salario'], 0, ',', '.') ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
         </div>
     </div>
 </div>

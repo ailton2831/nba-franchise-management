@@ -5,9 +5,8 @@ include("../../verificao_sessao.php");
 if(isset($_GET['txtID'])){
     $txtID = (isset($_GET['txtID'])?$_GET['txtID']:"");
     $sentencia=$conexion->prepare("DELETE FROM jogo WHERE id=:id");
-    $sentencia-> bindParam(":id", $txtID);
+    $sentencia->bindParam(":id", $txtID);
     $sentencia->execute();
-
 
     $_SESSION['alerta'] = [
         'icon'  => 'success',
@@ -24,6 +23,7 @@ $sentencia->execute();
 $lista_jogos=$sentencia->fetchAll(PDO::FETCH_ASSOC);
 
 $hoje = date('Y-m-d');
+$num_colunas = (isset($_SESSION['tipo']) && $_SESSION['tipo'] === 'admin') ? 8 : 7;
 ?>
 
 <?php include("../../template/header.php");?>
@@ -51,51 +51,59 @@ $hoje = date('Y-m-d');
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($lista_jogos as $registo) { ?> 
-                    <tr>
-                        <td scope="row"><?php echo $registo['id'] ;?></td>
-                        <td><?php echo date('d/m/Y', strtotime($registo['data'])) ;?></td>
-                        <td><?php echo $registo['adversario'] ;?></td>
-                        <td><?php echo $registo['local'] ;?></td>
-                        
-                        <td>
-                            <?php 
-                            if ($registo['data'] <= $hoje && $registo['placar'] !== null) {
-                                echo $registo['placar'] . ' - ' . $registo['placar_vs'];
-                            } else {
-                                echo '<span class="text-muted">TBD</span>';
-                            }
-                            ?>
-                        </td>
-                        
-                        <td>
-                            <?php 
-                            if ($registo['data'] <= $hoje && $registo['placar'] !== null) {
-                                if ($registo['placar'] > $registo['placar_vs']) { 
-                                    echo '<span class="badge badge-winner">W</span>'; 
-                                } else {
-                                    echo '<span class="badge badge-loser">L</span>'; 
-                                }
-                            } else {
-                                echo '<span class="badge bg-light text-dark">Agendado</span>';
-                            }
-                            ?> 
-                        </td>
-                        
-                        <td><?php echo $registo['temporada'] ;?></td>
-                        <?php if (isset($_SESSION['tipo']) && $_SESSION['tipo'] === 'admin'): ?>
-                            <td style="text-align: right;">
-                                <?php if ($registo['data'] <= $hoje && $registo['placar'] !== null): ?>
-                                    <a href="boxscore.php?txtID=<?php echo $registo['id'];?>" class="btn btn-primary btn-sm" role="button">
-                                        Box score
-                                    </a>
-                                <?php endif; ?>
-                                <a class="btn btn-success btn-sm" href="update.php?txtID=<?php echo $registo['id'];?>" role="button">Update</a>
-                                <a class="btn btn-danger btn-sm" href="javascript:eliminar(<?php echo $registo['id'];?>);" role="button">Delete</a>
+                    <?php if(empty($lista_jogos)): ?>
+                        <tr>
+                            <td colspan="<?= $num_colunas ?>" class="text-center py-5 text-muted">
+                                <div class="d-flex flex-column align-items-center gap-2">
+                                    <span style="font-size:40px">🏀</span>
+                                    <p class="mb-0 small">Nenhum jogo adicionado</p>
+                                </div>
                             </td>
-                        <?php endif; ?>
-                    </tr>
-                    <?php } ?>
+                        </tr>
+                    <?php else: ?>
+                        <?php foreach ($lista_jogos as $registo): ?>
+                        <tr>
+                            <td scope="row"><?= $registo['id'] ?></td>
+                            <td><?= date('d/m/Y', strtotime($registo['data'])) ?></td>
+                            <td><?= $registo['adversario'] ?></td>
+                            <td><?= $registo['local'] ?></td>
+
+                            <td>
+                                <?php if ($registo['data'] <= $hoje && $registo['placar'] !== null): ?>
+                                    <?= $registo['placar'] . ' - ' . $registo['placar_vs'] ?>
+                                <?php else: ?>
+                                    <span class="text-muted">TBD</span>
+                                <?php endif; ?>
+                            </td>
+
+                            <td>
+                                <?php if ($registo['data'] <= $hoje && $registo['placar'] !== null): ?>
+                                    <?php if ($registo['placar'] > $registo['placar_vs']): ?>
+                                        <span class="badge badge-winner">W</span>
+                                    <?php else: ?>
+                                        <span class="badge badge-loser">L</span>
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <span class="badge bg-light text-dark">Agendado</span>
+                                <?php endif; ?>
+                            </td>
+
+                            <td><?= $registo['temporada'] ?></td>
+
+                            <?php if (isset($_SESSION['tipo']) && $_SESSION['tipo'] === 'admin'): ?>
+                                <td style="text-align: right;">
+                                    <?php if ($registo['data'] <= $hoje && $registo['placar'] !== null): ?>
+                                        <a href="boxscore.php?txtID=<?= $registo['id'] ?>" class="btn btn-primary btn-sm" role="button">
+                                            Box score
+                                        </a>
+                                    <?php endif; ?>
+                                    <a class="btn btn-success btn-sm" href="update.php?txtID=<?= $registo['id'] ?>" role="button">Update</a>
+                                    <a class="btn btn-danger btn-sm" href="javascript:eliminar(<?= $registo['id'] ?>);" role="button">Delete</a>
+                                </td>
+                            <?php endif; ?>
+                        </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>

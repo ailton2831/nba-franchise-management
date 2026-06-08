@@ -53,14 +53,15 @@ $uri = $_SERVER['REQUEST_URI'];
                     <li class="nav-item">
                         <a class="nav-link <?= (strpos($uri, 'utilizadores') !== false) ? 'active' : '' ?>" href="<?php echo $url_base;?>pages/utilizadores">Utilizadores</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?= (strpos($uri, 'financas') !== false) ? 'active' : '' ?>" href="<?php echo $url_base;?>pages/financas">Finanças</a>
-                    </li>
+
                 <?php } ?>
 
                 <?php if(isset($_SESSION['tipo']) && ($_SESSION['tipo'] === 'GM' || $_SESSION['tipo'] === 'admin')){ ?>
                     <li class="nav-item">
                         <a class="nav-link <?= (strpos($uri, 'contratos') !== false) ? 'active' : '' ?>" href="<?php echo $url_base;?>pages/contratos">Contratos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= (strpos($uri, 'financas') !== false) ? 'active' : '' ?>" href="<?php echo $url_base;?>pages/financas">Finanças</a>
                     </li>
                 <?php } ?>
                                 

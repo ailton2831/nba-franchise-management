@@ -2,7 +2,6 @@
 include("../../db.php");
 include("../../verificao_sessao.php");
 
-
 $sentencia=$conexion->prepare("SELECT j.nome, 
                                 COUNT(stat.id_jogo) AS jogos,
                                 ROUND(AVG(stat.minutos), 1) AS media_min,
@@ -18,56 +17,55 @@ $sentencia=$conexion->prepare("SELECT j.nome,
                                 ORDER BY media_pts DESC");
 $sentencia->execute();
 $lista_stats=$sentencia->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
-
 
 <?php include("../../template/header.php");?>
 
-
-
-
 <br/>
 <div class="card">
-    <div class="card-header">
-        
-    </div>
+    <div class="card-header"></div>
     <div class="card-body">
-        <div
-            class="table-responsive"
-        >
-            <table
-                class="table" id="table"
-            >
+        <div class="table-responsive">
+            <table class="table" id="table">
                 <thead>
                     <tr>
                         <th scope="col">Nome</th>
                         <th scope="col">Jogos</th>
                         <th scope="col">Minutos</th>
                         <th scope="col">Pontos</th>
-                        <th scope="col">Assistencias</th>
+                        <th scope="col">Assistências</th>
                         <th scope="col">Ressaltos</th>
                         <th scope="col">Bloqueios</th>
                         <th scope="col">Roubos</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($lista_stats as $registo) {?> 
-                    <tr class="">
-                        <td scope="row"><?php echo $registo['nome'] ;?></td>
-                        <td><?php echo $registo['jogos'] ;?></td>
-                        <td><?php echo $registo['media_min'] ;?></td>
-                        <td><?php echo $registo['media_pts'] ;?></td>
-                        <td><?php echo $registo['media_ass'] ;?></td>
-                        <td><?php echo $registo['media_reb'] ;?></td>
-                        <td><?php echo $registo['media_blk'] ;?></td>
-                        <td><?php echo $registo['media_stl'] ;?></td>
-                    </tr>
-                    <?php }?>
+                    <?php if(empty($lista_stats)): ?>
+                        <tr>
+                            <td colspan="8" class="text-center py-5 text-muted">
+                                <div class="d-flex flex-column align-items-center gap-2">
+                                    <span style="font-size:40px">🏀</span>
+                                    <p class="mb-0 small">Nenhuma estatística encontrada</p>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php else: ?>
+                        <?php foreach ($lista_stats as $registo): ?>
+                        <tr>
+                            <td><?= $registo['nome'] ?></td>
+                            <td><?= $registo['jogos'] ?></td>
+                            <td><?= $registo['media_min'] ?></td>
+                            <td><?= $registo['media_pts'] ?></td>
+                            <td><?= $registo['media_ass'] ?></td>
+                            <td><?= $registo['media_reb'] ?></td>
+                            <td><?= $registo['media_blk'] ?></td>
+                            <td><?= $registo['media_stl'] ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
-        
     </div>
 </div>
 
