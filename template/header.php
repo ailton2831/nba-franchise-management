@@ -34,13 +34,13 @@ $uri = $_SERVER['REQUEST_URI'];
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link <?= (strpos($uri, 'index.php') !== false || $uri === '/nba/') ? 'active' : '' ?>" href="<?php echo $url_base;?>index.php">Home page</a>
+                    <a class="nav-link <?= ($uri === '/nba/' || $uri === '/nba/index.php') ? 'active' : '' ?>" href="<?php echo $url_base;?>index.php">Home page</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <?= (strpos($uri, 'jogadores') !== false) ? 'active' : '' ?>" href="<?php echo $url_base;?>pages/jogadores">Jogadores</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= (strpos($uri, 'staff') !== false) ? 'active' : '' ?>" href="<?php echo $url_base;?>pages/staff">Staff</a>
+                    <a class="nav-link <?= (strpos($uri, 'pages/staff') !== false) ? 'active' : '' ?>" href="<?php echo $url_base;?>pages/staff">Staff</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <?= (strpos($uri, 'jogos') !== false) ? 'active' : '' ?>" href="<?php echo $url_base;?>pages/jogos">Jogos</a>
@@ -57,8 +57,12 @@ $uri = $_SERVER['REQUEST_URI'];
                 <?php } ?>
 
                 <?php if(isset($_SESSION['tipo']) && ($_SESSION['tipo'] === 'GM' || $_SESSION['tipo'] === 'admin')){ ?>
-                    <li class="nav-item">
-                        <a class="nav-link <?= (strpos($uri, 'contratos') !== false) ? 'active' : '' ?>" href="<?php echo $url_base;?>pages/contratos">Contratos</a>
+                    <li class="nav-item dropdown navbar-item">
+                        <a class="nav-link dropdown-toggle <?= (strpos($uri, 'pages/contratos') !== false) ? 'active' : '' ?>" href="#" role="button" data-bs-toggle="dropdown">Contratos</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="<?php echo $url_base;?>pages/contratos/index.php">Contratos Jogadores</a></li>
+                            <li><a class="dropdown-item" href="<?php echo $url_base;?>pages/contratos/indexstaff.php">Contratos Staff</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?= (strpos($uri, 'financas') !== false) ? 'active' : '' ?>" href="<?php echo $url_base;?>pages/financas">Finanças</a>

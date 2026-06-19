@@ -28,13 +28,23 @@ $fim_temp    = $ano_fim . "-09-30";
 // Desativacao dos contratos que passaram a data final
 if ($temporada_atual === $temporada_real) {
     $updateStatus = $conexion->prepare("
-        UPDATE contrato 
+        UPDATE contratoj 
         SET status = 'encerrado' 
         WHERE status = 'ativo' 
         AND data_final < :temporada_real
     ");
     $updateStatus->bindParam(":temporada_real", $temporada_real);
     $updateStatus->execute();
+
+    $updateStatusStaff = $conexion->prepare("
+        UPDATE contratostaff 
+        SET status = 'encerrado' 
+        WHERE status = 'ativo' 
+        AND data_final < :temporada_real
+    ");
+    $updateStatusStaff->bindParam(":temporada_real", $temporada_real);
+    $updateStatusStaff->execute();
+
 }
 
 
@@ -48,21 +58,27 @@ if($_POST){
     if (!preg_match('/^\d{4}\/\d{4}$/', $temporada)) {
         $erro_validacao = "Formato de temporada inválido! Use o formato XXXX/XXXX (ex: 2024/2025).";
     } else {
-        $sentencia = $conexion->prepare("SELECT id FROM financas WHERE temporada = :temporada");
-        $sentencia->bindParam(":temporada", $temporada);
-        $sentencia->execute();
-        $existe = $sentencia->fetch();
-        if($existe){
-            $sentencia = $conexion->prepare("UPDATE financas SET salary_cap=:salary_cap, teto_salarial=:teto_salarial WHERE temporada=:temporada");
+        list($ano_inicio_form, $ano_fim_form) = explode('/', $temporada);
+        // Verificar se o segundo ano não é exatamente o primeiro ano + 1
+        if ((int)$ano_fim_form !== (int)$ano_inicio_form + 1) {
+            $erro_validacao = "Anos inválidos! A temporada deve conter anos consecutivos (ex: $ano_inicio_form/" . ($ano_inicio_form + 1) . ").";
+        } else {
+            $sentencia = $conexion->prepare("SELECT id FROM financas WHERE temporada = :temporada");
+            $sentencia->bindParam(":temporada", $temporada);
+            $sentencia->execute();
+            $existe = $sentencia->fetch();
+            if($existe){
+                $sentencia = $conexion->prepare("UPDATE financas SET salary_cap=:salary_cap, teto_salarial=:teto_salarial WHERE temporada=:temporada");
             } else {
-            $sentencia = $conexion->prepare("INSERT INTO financas (temporada, salary_cap, teto_salarial) VALUES (:temporada, :salary_cap, :teto_salarial)");
+                $sentencia = $conexion->prepare("INSERT INTO financas (temporada, salary_cap, teto_salarial) VALUES (:temporada, :salary_cap, :teto_salarial)");
             }
             $sentencia->bindParam(":temporada", $temporada);
             $sentencia->bindParam(":salary_cap", $salary_cap);
             $sentencia->bindParam(":teto_salarial", $teto_salarial);
             $sentencia->execute();
-            header("Location: financas.php?temporada=$temporada");
+            header("Location: index.php?temporada=$temporada");
             exit;
+        }
     }
     
 }
@@ -80,7 +96,15 @@ $teto_salarial = $financas['teto_salarial'] ?? 0;
 //total de salarios ativos
 $sentencia = $conexion->prepare("
                         SELECT SUM(salario) AS total 
-                        FROM contrato 
+                        FROM contratoj
+                        WHERE status = 'ativo' 
+                        AND data_inicio <= :temporada_fim
+                        AND data_final >= :temporada_inicio
+
+                        UNION ALL
+
+                        SELECT SUM(salario) AS total 
+                        FROM contratostaff
                         WHERE status = 'ativo' 
                         AND data_inicio <= :temporada_fim
                         AND data_final >= :temporada_inicio
@@ -98,7 +122,7 @@ $teto_excedido     = $espaco_disponivel < 0;
 // Top 5 maiores salários
 $sentencia = $conexion->prepare("
     SELECT j.nome, c.salario, 'Jogador' AS tipo
-    FROM contrato c
+    FROM contratoj c
     JOIN jogadores j ON c.id_jogador = j.id
     WHERE c.status = 'ativo' 
     AND  c.data_final >= :temporada_inicio 
@@ -108,7 +132,7 @@ $sentencia = $conexion->prepare("
     UNION ALL
 
     SELECT s.nome, c.salario, 'Staff' AS tipo
-    FROM contrato c
+    FROM contratostaff c
     JOIN staff s ON c.id_staff = s.id
     WHERE c.status = 'ativo' 
     AND  c.data_final >= :temporada_inicio 
@@ -152,13 +176,13 @@ $temporadas = $sentencia->fetchAll(PDO::FETCH_ASSOC);
     <span style="font-size: 24px;"></span>
     <div>
         <h6 class="mb-1 fw-bold">Alerta de Luxury Tax</h6>
-        <p class="mb-0 small">Teto salarial excedido em <strong>$<?= number_format(abs($espaco_disponivel), 0, ',', '.') ?></strong>. Reveja os contratos ativos da equipa.</p>
+        <p class="mb-0 small">Teto salarial excedido em <strong>$<?= number_format(abs($espaco_disponivel), 0, ',', '.') ?>M</strong>. Reveja os contratos ativos da equipa.</p>
     </div>
 </div>
 <?php endif; ?>
 
 <form method="GET" action="" class="mb-4">
-    <div class="input-group" style="max-width: 300px;">
+    <div class="input-group" style="max-width: 400px;">
         <span class="input-group-text bg-white border-end-0 text-muted small">Temporada</span>
         <select name="temporada" class="form-select border-start-0 ps-0 fw-semibold">
             <?php foreach($temporadas as $registo): ?>
@@ -176,21 +200,21 @@ $temporadas = $sentencia->fetchAll(PDO::FETCH_ASSOC);
     <div class="col-6 col-md-3">
         <div class="card card-accent-primary shadow-sm p-3 text-center">
             <p class="text-muted mb-1" style="font-size:13px">Salary cap</p>
-            <h5 class="text-primary mb-0">$<?= number_format($salary_cap, 0, ',', '.') ?></h5>
+            <h5 class="text-primary mb-0">$<?= number_format($salary_cap, 0, ',', '.') ?>M</h5>
             <small class="text-muted">limite suave</small>
         </div>
     </div>
     <div class="col-6 col-md-3">
         <div class="card card-accent-neutral shadow-sm p-3 text-center">
             <p class="text-muted mb-1" style="font-size:13px">Luxury Tax</p>
-            <h5 class="mb-0">$<?= number_format($teto_salarial, 0, ',', '.') ?></h5>
+            <h5 class="mb-0">$<?= number_format($teto_salarial, 0, ',', '.') ?>M</h5>
             <small class="text-muted">limite máximo</small>
         </div>
     </div>
     <div class="col-6 col-md-3">
         <div class="card card-accent-warning shadow-sm p-3 text-center">
             <p class="text-muted mb-1" style="font-size:13px">Total comprometido</p>
-            <h5 class="text-warning mb-0">$<?= number_format($total_comprometido, 0, ',', '.') ?></h5>
+            <h5 class="text-warning mb-0">$<?= number_format($total_comprometido, 0, ',', '.') ?>M</h5>
             <small class="text-muted">contratos ativos</small>
         </div>
     </div>
@@ -198,7 +222,7 @@ $temporadas = $sentencia->fetchAll(PDO::FETCH_ASSOC);
         <div class="card card-accent-success shadow-sm p-3 text-center <?= $teto_excedido ? 'border border-danger' : '' ?>">
             <p class="text-muted mb-1" style="font-size:13px">Espaço disponível</p>
             <h5 class="<?= $teto_excedido ? 'text-danger' : 'text-success' ?> mb-0">
-                $<?= number_format(abs($espaco_disponivel), 0, ',', '.') ?>
+                $<?= number_format(abs($espaco_disponivel), 0, ',', '.') ?>M
             </h5>
             <small class="text-muted"><?= $teto_excedido ? 'excedido' : 'disponível' ?></small>
         </div>
@@ -317,7 +341,7 @@ $temporadas = $sentencia->fetchAll(PDO::FETCH_ASSOC);
                                     <?= $registo['tipo'] ?>
                                 </span>
                             </td>
-                            <td class="text-end fw-semibold">$<?= number_format($registo['salario'], 0, ',', '.') ?></td>
+                            <td class="text-end fw-semibold">$<?= number_format($registo['salario'], 0, ',', '.') ?>M</td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>

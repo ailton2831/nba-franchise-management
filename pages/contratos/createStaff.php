@@ -98,7 +98,7 @@ $lista_staff=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                     name="salario"
                     id="salario"
                     aria-describedby="helpId"
-                    placeholder="Salario por ano"
+                    placeholder="Milhoes por ano"
                 />
             </div>
             <div class="mb-3">
@@ -106,7 +106,7 @@ $lista_staff=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                 <select class="form-select" name="status" id="status" required>
                     <option value="">Selecione...</option>
                     <?php 
-                    $opcoesStatus = getEnumValues($conexion, 'contrato', 'status');
+                    $opcoesStatus = getEnumValues($conexion, 'contratostaff', 'status');
                     foreach ($opcoesStatus as $opcao) {
                         echo "<option value='$opcao'>$opcao</option>";
                     }

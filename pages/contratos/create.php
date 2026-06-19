@@ -14,7 +14,7 @@ if($_POST){
     $status = (isset($_POST["status"])?$_POST["status"]:"");
 
 
-    $sentencia=$conexion->prepare("INSERT INTO contrato (id,data_inicio,data_final,salario,status,tipo,id_jogador,id_staff) VALUES (null, :inicio,:fim,:salario,:status,'jogador', :id_jogador,null )");
+    $sentencia=$conexion->prepare("INSERT INTO contratoj (id,data_inicio,data_final,salario,status,tipo,id_jogador) VALUES (null, :inicio,:fim,:salario,:status,'jogador', :id_jogador)");
     $sentencia-> bindParam(":inicio", $inicio);
     $sentencia-> bindParam(":fim", $fim);
     $sentencia-> bindParam(":salario", $salario);
@@ -99,7 +99,7 @@ $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                     name="salario"
                     id="salario"
                     aria-describedby="helpId"
-                    placeholder="Salario por ano"
+                    placeholder="Milhoes por ano"
                 />
             </div>
             <div class="mb-3">
@@ -107,7 +107,7 @@ $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                 <select class="form-select" name="status" id="status" required>
                     <option value="">Selecione...</option>
                     <?php 
-                    $opcoesStatus = getEnumValues($conexion, 'contrato', 'status');
+                    $opcoesStatus = getEnumValues($conexion, 'contratoj', 'status');
                     foreach ($opcoesStatus as $opcao) {
                         echo "<option value='$opcao'>$opcao</option>";
                     }

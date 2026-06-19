@@ -47,6 +47,7 @@ $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
 <br/>
 <div class="card">
     <div class="card-header">
+        <?php if($_SESSION['tipo'] == "admin"){ ?>
         <a
             name=""
             id=""
@@ -55,6 +56,7 @@ $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
             role="button"
             >Adicionar Jogadores</a
         >
+        <?php } ?> 
     </div>
     <div class="card-body">
         <div
@@ -73,7 +75,6 @@ $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                         <th scope="col">Peso</th>
                         <th scope="col">Altura</th>
                         <th scope="col">Idade</th>
-                        <th scope="col"></th>
                         <?php if (isset($_SESSION['tipo']) && $_SESSION['tipo'] === 'admin'): ?>
                             <th scope="col">Ação</th>
                         <?php endif; ?>
@@ -94,7 +95,7 @@ $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                                 src="<?php echo $registo['foto'] ;?>"
                                 class="img-fluid rounded-top"
                                 alt=""
-                                width = "50"
+                                width = "100"
                             />
                             
                             </td>

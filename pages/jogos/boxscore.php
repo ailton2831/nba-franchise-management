@@ -35,7 +35,7 @@ if(isset($_GET['txtID'])){
 <br/>
 <div class="card">
     <div class="card-header">
-        <?php if ($_SESSION['perfil'] === 'admin'): ?>
+        <?php if ($_SESSION['tipo'] === 'admin'): ?>
             <?php if ($tem_stats): ?>
                 <a
                 name=""
@@ -75,12 +75,12 @@ if(isset($_GET['txtID'])){
                     <?php foreach ($lista_stats as $registo) {?> 
                     <tr class="">
                         <td scope="row"><?php echo $registo['nome'] ;?></td>
-                        <td><?php echo $registo['min'] ;?></td>
-                        <td><?php echo $registo['pts'] ;?></td>
-                        <td><?php echo $registo['ass'] ;?></td>
-                        <td><?php echo $registo['reb'] ;?></td>
-                        <td><?php echo $registo['blk'] ;?></td>
-                        <td><?php echo $registo['stl'] ;?></td>
+                        <td><?php echo $registo['minutos'] ;?></td>
+                        <td><?php echo $registo['pontos'] ;?></td>
+                        <td><?php echo $registo['assist'] ;?></td>
+                        <td><?php echo $registo['ressalto'] ;?></td>
+                        <td><?php echo $registo['bloqueios'] ;?></td>
+                        <td><?php echo $registo['roubos'] ;?></td>
                     </tr>
                     <?php }?>
                 </tbody>

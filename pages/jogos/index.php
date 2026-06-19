@@ -31,7 +31,9 @@ $num_colunas = (isset($_SESSION['tipo']) && $_SESSION['tipo'] === 'admin') ? 8 :
 <br/>
 <div class="card">
     <div class="card-header">
+        <?php if($_SESSION['tipo'] == "admin"){ ?>
         <a class="btn btn-primary" href="create.php" role="button">Adicionar Jogos</a>
+        <?php } ?>
     </div>
     <div class="card-body">
         <div class="table-responsive">

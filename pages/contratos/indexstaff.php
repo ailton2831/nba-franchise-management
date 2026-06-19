@@ -8,7 +8,7 @@ if($_SESSION['tipo'] !== "admin" && $_SESSION['tipo'] !== "GM" ){
 
 if(isset($_GET['txtID'])){
     $txtID = (isset($_GET['txtID'])?$_GET['txtID']:"");
-    $sentencia=$conexion->prepare("DELETE FROM contratoj WHERE id=:id");
+    $sentencia=$conexion->prepare("DELETE FROM contratostaff WHERE id=:id");
     $sentencia-> bindParam(":id", $txtID);
     $sentencia->execute();
 
@@ -24,9 +24,9 @@ if(isset($_GET['txtID'])){
 
 
 $sentencia=$conexion->prepare("SELECT c.id, c.data_inicio AS inicio, c.data_final AS fim, c.salario, c.status, c.tipo,
-                                COALESCE(j.nome) AS nome
-                                FROM contratoj c
-                                LEFT JOIN jogadores j ON c.id_jogador = j.id");
+                                COALESCE(s.nome) AS nome
+                                FROM contratostaff c
+                                LEFT JOIN staff s ON c.id_staff = s.id");
 $sentencia->execute();
 $lista_contrato=$sentencia->fetchAll(PDO::FETCH_ASSOC);
 
@@ -43,9 +43,9 @@ $lista_contrato=$sentencia->fetchAll(PDO::FETCH_ASSOC);
             name=""
             id=""
             class="btn btn-primary"
-            href="create.php"
+            href="createStaff.php"
             role="button"
-            >Criar Contrato de Jogador</a
+            >Criar Contrato de Staff</a
         >
         <?php } ?>
     </div>

@@ -141,7 +141,7 @@ $win_pct = ($total_vitoria + $total_derrota) > 0
                     <div>
                         <h5 class="mb-1">vs <?= htmlspecialchars($proximo_jogo['adversario']) ?></h5>
                         <p class="text-muted mb-0" style="font-size:13px">
-                            📅 <?= date('d/m/Y', strtotime($proximo_jogo['data'])) ?>
+                            <?= date('d/m/Y', strtotime($proximo_jogo['data'])) ?>
                         </p>
                     </div>
                     <span class="badge <?= $proximo_jogo['local'] === 'casa' ? 'bg-success' : 'bg-secondary' ?>" style="font-size:13px;padding:6px 12px">

@@ -8,7 +8,7 @@ if($_SESSION['tipo'] !== "admin"){
 
 if(isset($_GET['txtID'])){
     $txtID = (isset($_GET['txtID'])?$_GET['txtID']:"");
-    $sentencia=$conexion->prepare("SELECT * FROM contrato WHERE id=:id");
+    $sentencia=$conexion->prepare("SELECT * FROM contratoj WHERE id=:id");
     $sentencia-> bindParam(":id", $txtID);
     $sentencia->execute();
     $registo=$sentencia->fetch(PDO::FETCH_LAZY);
@@ -28,11 +28,12 @@ if($_POST){
     $id_jogador = (isset($_POST["id_jogador"])?$_POST["id_jogador"]:"");
     $status = (isset($_POST["status"])?$_POST["status"]:"");
 
-    $sentencia=$conexion->prepare("UPDATE contrato SET data_inicio=:inicio, data_final=:fim,salario=:salario,status=:status WHERE id=:id");
+    $sentencia=$conexion->prepare("UPDATE contratoj SET id_jogador=:idjogador data_inicio=:inicio, data_final=:fim,salario=:salario,status=:status WHERE id=:id");
     $sentencia-> bindParam(":inicio", $inicio);
     $sentencia-> bindParam(":fim", $fim);
     $sentencia-> bindParam(":salario", $salario);
     $sentencia-> bindParam(":status", $status);
+    $sentencia-> bindParam(":idjogador", $id_jogador);
     $sentencia-> bindParam(":id", $txtID); 
     $sentencia->execute();
 
