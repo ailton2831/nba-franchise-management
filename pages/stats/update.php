@@ -9,9 +9,12 @@ if($_SESSION['tipo'] !== "admin"){
 $txtID = (isset($_GET['txtID']) ? $_GET['txtID'] : "");
 
 
-$sentencia = $conexion->prepare("SELECT stat.*, j.nome FROM estatistica stat
-                                JOIN jogadores j ON j.id = stat.id_jogador
-                                WHERE stat.id_jogo = :id_jogo");
+$sentencia = $conexion->prepare("
+    SELECT j.id AS id_jogador, j.nome, 
+    stat.pontos, stat.assist, stat.ressalto, stat.roubos, stat.bloqueios, stat.minutos 
+    FROM jogadores j
+    LEFT JOIN estatistica stat ON j.id = stat.id_jogador AND stat.id_jogo = :id_jogo
+");
 $sentencia->bindParam(":id_jogo", $txtID);
 $sentencia->execute();
 $lista_stats = $sentencia->fetchAll(PDO::FETCH_ASSOC);
@@ -28,7 +31,20 @@ if(isset($_POST['id_jogador'])){
         $blk = (isset($_POST['blk'][$index]) ? $_POST['blk'][$index] : 0);
         $stl = (isset($_POST['stl'][$index]) ? $_POST['stl'][$index] : 0);
 
+        // 2. Verifica se este jogador já tem uma linha de estatística para este jogo
+        $check = $conexion->prepare("SELECT COUNT(*) FROM estatistica WHERE id_jogo = :id_jogo AND id_jogador = :id_jogador");
+        $check->execute([':id_jogo' => $txtID, ':id_jogador' => $id_jogador]);
+        $existe = $check->fetchColumn();
 
+        // 3. Decide se faz UPDATE (se já existir) ou INSERT (se for jogador novo na partida)
+        if ($existe > 0) {
+            $sql = "UPDATE estatistica SET pontos=:pts, assist=:ass, ressalto=:reb, roubos=:stl, bloqueios=:blk, minutos=:min 
+                    WHERE id_jogo=:id_jogo AND id_jogador=:id_jogador";
+        } else {
+            $sql = "INSERT INTO estatistica (id_jogo, id_jogador, pontos, assist, ressalto, roubos, bloqueios, minutos) 
+                    VALUES (:id_jogo, :id_jogador, :pts, :ass, :reb, :stl, :blk, :min)";
+        }
+        $sentencia = $conexion->prepare($sql);
         $sentencia->bindParam(":id_jogo", $txtID);
         $sentencia->bindParam(":id_jogador", $id_jogador);
         $sentencia->bindParam(":pts", $pts);

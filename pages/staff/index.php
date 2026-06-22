@@ -33,8 +33,9 @@ $lista_staff = $sentencia->fetchAll(PDO::FETCH_ASSOC);
     <div class="card-header d-flex justify-content-between align-items-center"> 
 
         <span>Administração do Staff da Equipa</span> 
-
+        <?php if($_SESSION['tipo'] == "admin"){ ?>
         <a name="" id="" class="btn btn-primary" href="create.php" role="button">Adicionar Membro</a> 
+        <?php } ?>
 
     </div> 
 
@@ -49,12 +50,11 @@ $lista_staff = $sentencia->fetchAll(PDO::FETCH_ASSOC);
                     <tr> 
 
                         <th scope="col">ID</th> 
-
                         <th scope="col">Nome</th> 
-
                         <th scope="col">Cargo</th> 
-
+                        <?php if (isset($_SESSION['tipo']) && $_SESSION['tipo'] === 'admin'): ?>
                         <th scope="col">Ações</th> 
+                        <?php endif; ?>
 
                     </tr> 
 
@@ -71,7 +71,7 @@ $lista_staff = $sentencia->fetchAll(PDO::FETCH_ASSOC);
                         <td><?php echo $registro['nome']; ?></td> 
 
                         <td><?php echo $registro['cargo']; ?></td> 
-
+                        <?php if (isset($_SESSION['tipo']) && $_SESSION['tipo'] === 'admin'): ?>
                         <td> 
 
                             <a
@@ -93,7 +93,7 @@ $lista_staff = $sentencia->fetchAll(PDO::FETCH_ASSOC);
                                 >
 
                         </td> 
-
+                        <?php endif; ?>
                     </tr> 
 
                     <?php } ?> 

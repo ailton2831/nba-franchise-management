@@ -115,7 +115,7 @@ $sentencia->execute();
 $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
 $total_comprometido = $resultado['total'] ?? 0;
 
-$espaco_disponivel = $teto_salarial - $total_comprometido;
+$espaco_disponivel = $salary_cap - $total_comprometido;
 $teto_excedido     = $espaco_disponivel < 0;
 
 
