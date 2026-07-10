@@ -1,9 +1,9 @@
-# 🏀 NBA Franchise Management System
+# NBA Franchise Management System
 
 Sistema de gestão de franquias da NBA desenvolvido como projeto da disciplina de Desenvolvimento Web, na Uni-CV (Universidade de Cabo Verde). 
 A aplicação web permite gerir staff, jogadores, contratos, jogos, estatisticas e finanças de uma franquia de basquetebol.
 
-## ✨ Funcionalidades
+## Funcionalidades
 
 - Gestão de jogadores e staff
 - Gestão de contratos
@@ -17,44 +17,8 @@ A aplicação web permite gerir staff, jogadores, contratos, jogos, estatisticas
 - **Camada de Dados:** MySQL
 - **Camada de Apresentção:** HTML, CSS, Bootstrap
 - 
-## 🗂️ Estrutura do projeto
-├── database/
-│   └── nbadb.sql              # Script de criação e povoamento da base de dados
-├── pages/
-│   ├── contratos/             # CRUD de contratos (jogadores e staff)
-│   │   ├── create.php
-│   │   ├── createStaff.php
-│   │   ├── index.php
-│   │   ├── indexstaff.php
-│   │   ├── update.php
-│   │   └── updateStaff.php
-│   ├── financas/               # Gestão financeira por época
-│   ├── jogadores/               # Gestão de jogadores
-│   ├── jogos/                   # Jogos e estatísticas por jogo
-│   │   ├── boxscore.php
-│   │   ├── create.php
-│   │   ├── index.php
-│   │   └── update.php
-│   ├── staff/                   # Gestão de staff técnico
-│   │   ├── create.php
-│   │   ├── index.php
-│   │   └── update.php
-│   ├── stats/                   # Estatísticas de jogadores
-│   │   ├── create.php
-│   │   ├── index.php
-│   │   └── update.php
-│   └── utilizador/              # Gestão de utilizadores
-├── template/
-│   ├── footer.php
-│   └── header.php
-├── .gitignore
-├── index.php
-├── login.php
-├── logout.php
-├── style.css
-└── verificao_sessao.php
 
-## 🚀 Como executar o projeto
+## Como executar o projeto
 
 Requisito : Ter XAMPP instalado
 
