@@ -49,6 +49,7 @@ $uri = $_SERVER['REQUEST_URI'];
                     <a class="nav-link <?= (strpos($uri, 'stats') !== false) ? 'active' : '' ?>" href="<?php echo $url_base;?>pages/stats">Stats</a>
                 </li>
                 
+                
                 <?php if(isset($_SESSION['tipo']) && $_SESSION['tipo'] === 'admin'){ ?>
                     <li class="nav-item">
                         <a class="nav-link <?= (strpos($uri, 'utilizadores') !== false) ? 'active' : '' ?>" href="<?php echo $url_base;?>pages/utilizadores">Utilizadores</a>

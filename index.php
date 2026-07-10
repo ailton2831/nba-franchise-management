@@ -26,6 +26,7 @@ $total = $sentencia->fetch(PDO::FETCH_ASSOC);
 $total_vitoria = $total['total_vitoria'] ?? 0;
 
 
+
 //total derrota
 $sentencia = $conexion -> prepare ("SELECT COUNT(*) AS total_derrota FROM jogo
                                     WHERE placar < placar_vs

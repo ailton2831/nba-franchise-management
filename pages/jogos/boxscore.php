@@ -82,6 +82,7 @@ if(isset($_GET['txtID'])){
                         <td><?php echo $registo['bloqueios'] ;?></td>
                         <td><?php echo $registo['roubos'] ;?></td>
                     </tr>
+                    
                     <?php }?>
                 </tbody>
             </table>

@@ -17,7 +17,6 @@ if($_POST){
         }else{
             $mensagem= "Error: Utilizador ou password estão incorretos";
         }
-
     }else{
         $mensagem= "Error: Utilizador nao existe";
     }

@@ -14,6 +14,7 @@ if(date('m') < 10){
     $temporada_real = date('Y') . '/' . (date('Y') + 1);
 }
 
+
 //Define a temporada do dashboard 
 $temporada_atual = $temporada_real;
 if(isset($_GET['temporada'])){

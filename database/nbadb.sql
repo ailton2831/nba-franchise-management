@@ -216,6 +216,7 @@ ALTER TABLE `users`
 -- Restrições para despejos de tabelas
 --
 
+
 --
 -- Limitadores para a tabela `contrato`
 --

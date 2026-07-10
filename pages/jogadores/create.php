@@ -15,6 +15,7 @@ if($_POST){
     $posicao = (isset($_POST["posicao"])?$_POST["posicao"]:"");
 
 
+    
 
     $sentencia=$conexion->prepare("INSERT INTO jogadores (id,nome, numero ,foto, data_nascimento, altura, posicao, peso) VALUES (null, :nome, :numero, :foto, :data_nascimento, :altura,:posicao, :peso)");
     

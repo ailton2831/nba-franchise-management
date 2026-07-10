@@ -25,6 +25,7 @@ if(isset($_POST['id_jogador'])){
         $blk = (isset($_POST['blk'][$index]) ? $_POST['blk'][$index] : 0);
         $stl = (isset($_POST['stl'][$index]) ? $_POST['stl'][$index] : 0);
         
+        
         $sentencia->bindParam(":id_jogo", $txtID);
         $sentencia->bindParam(":id_jogador", $id_jogador);
         $sentencia->bindParam(":pts", $pts);

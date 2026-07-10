@@ -57,7 +57,6 @@ if($_POST){
             <a class="btn btn-danger" href="index.php" role="button">Cancelar</a> 
 
         </form> 
-
     </div> 
 
 </div> 

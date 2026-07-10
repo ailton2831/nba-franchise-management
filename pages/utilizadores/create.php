@@ -18,6 +18,7 @@ if($_POST){
         $passwordSecure = password_hash($password, PASSWORD_BCRYPT); 
         $sentencia = $conexion->prepare("INSERT INTO users (user, password, email, tipo) VALUES (:user, :password, :email, :tipo)"); 
 
+        
         $sentencia->bindParam(":user", $username); 
         $sentencia->bindParam(":password", $passwordSecure); 
         $sentencia->bindParam(":email", $email); 

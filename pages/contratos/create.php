@@ -112,6 +112,7 @@ $lista_jogadores=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                         echo "<option value='$opcao'>$opcao</option>";
                     }
                     ?>
+                    
                 </select>
             </div>
             <button
