@@ -16,7 +16,6 @@ A aplicação web permite gerir staff, jogadores, contratos, jogos, estatisticas
 - **Camada lógica:** PHP
 - **Camada de Dados:** MySQL
 - **Camada de Apresentção:** HTML, CSS, Bootstrap
-- 
 
 ## Como executar o projeto
 
