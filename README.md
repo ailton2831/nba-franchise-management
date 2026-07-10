@@ -18,12 +18,8 @@ A aplicação web permite gerir staff, jogadores, contratos, jogos, estatisticas
 - **Camada de Apresentção:** HTML, CSS, Bootstrap
 - 
 ## 🗂️ Estrutura do projeto
-
 ├── database/
-│   └── nbadb.sql              # Script de criação da base de dados
-├── imagens/
-│   ├── nbalogo.png
-│   └── nbalogo2.png
+│   └── nbadb.sql              # Script de criação e povoamento da base de dados
 ├── pages/
 │   ├── contratos/             # CRUD de contratos (jogadores e staff)
 │   │   ├── create.php
@@ -33,17 +29,13 @@ A aplicação web permite gerir staff, jogadores, contratos, jogos, estatisticas
 │   │   ├── update.php
 │   │   └── updateStaff.php
 │   ├── financas/               # Gestão financeira por época
-│   │    ├── index.php
-│   ├── jogadores/               # CRUD de jogadores
-│   │   ├── create.php
-│   │   ├── index.php
-│   │   └── update.php
+│   ├── jogadores/               # Gestão de jogadores
 │   ├── jogos/                   # Jogos e estatísticas por jogo
 │   │   ├── boxscore.php
 │   │   ├── create.php
 │   │   ├── index.php
 │   │   └── update.php
-│   ├── staff/                   # CRUD de staff técnico
+│   ├── staff/                   # Gestão de staff técnico
 │   │   ├── create.php
 │   │   ├── index.php
 │   │   └── update.php
@@ -51,10 +43,7 @@ A aplicação web permite gerir staff, jogadores, contratos, jogos, estatisticas
 │   │   ├── create.php
 │   │   ├── index.php
 │   │   └── update.php
-│   └── utilizador/              # CRUD de utilizadores
-│   │   ├── create.php
-│   │   ├── index.php
-│   │   └── update.php
+│   └── utilizador/              # Gestão de utilizadores
 ├── template/
 │   ├── footer.php
 │   └── header.php
