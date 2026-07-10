@@ -53,10 +53,16 @@ $uri = $_SERVER['REQUEST_URI'];
                     <li class="nav-item">
                         <a class="nav-link <?= (strpos($uri, 'utilizadores') !== false) ? 'active' : '' ?>" href="<?php echo $url_base;?>pages/utilizadores">Utilizadores</a>
                     </li>
-
+                    <li class="nav-item dropdown navbar-item">
+                        <a class="nav-link dropdown-toggle <?= (strpos($uri, 'pages/contratos') !== false) ? 'active' : '' ?>" href="#" role="button" data-bs-toggle="dropdown">Contratos</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="<?php echo $url_base;?>pages/contratos/index.php">Contratos Jogadores</a></li>
+                            <li><a class="dropdown-item" href="<?php echo $url_base;?>pages/contratos/indexstaff.php">Contratos Staff</a></li>
+                        </ul>
+                    </li>
                 <?php } ?>
 
-                <?php if(isset($_SESSION['tipo']) && ($_SESSION['tipo'] === 'GM' || $_SESSION['tipo'] === 'admin')){ ?>
+                <?php if(isset($_SESSION['tipo']) && ($_SESSION['tipo'] === 'GM')){ ?>
                     <li class="nav-item dropdown navbar-item">
                         <a class="nav-link dropdown-toggle <?= (strpos($uri, 'pages/contratos') !== false) ? 'active' : '' ?>" href="#" role="button" data-bs-toggle="dropdown">Contratos</a>
                         <ul class="dropdown-menu">

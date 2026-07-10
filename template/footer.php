@@ -19,7 +19,7 @@
 
         <script>
         $("#table_id").DataTable({
-                "pageLength":3,
+                "pageLength":5,
                     lengthMenu:[
                         [3,10,25,50],
                         [3,10,25,50]

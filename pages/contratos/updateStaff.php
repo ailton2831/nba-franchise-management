@@ -5,7 +5,8 @@ if($_SESSION['tipo'] !== "admin"){
     header("Location:../../index.php");
     exit();
 }
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 if(isset($_GET['txtID'])){
     $txtID = (isset($_GET['txtID'])?$_GET['txtID']:"");
     $sentencia=$conexion->prepare("SELECT * FROM contrato WHERE id=:id");
@@ -122,7 +123,7 @@ function getEnumValues($pdo, $tabela, $coluna) {
                 <select class="form-select" name="status" id="status" required>
                     <option value="">Selecione...</option>
                     <?php 
-                    $opcoesStatus = getEnumValues($conexion, 'contrato', 'status');
+                    $opcoesStatus = getEnumValues($conexion, 'contratostaff', 'status');
                     foreach ($opcoesStatus as $opcao) {
                         echo "<option value='$opcao'>$opcao</option>";
                     }
@@ -133,7 +134,7 @@ function getEnumValues($pdo, $tabela, $coluna) {
                 type="submit"
                 class="btn btn-success"
             >
-                Criar Contrato
+                Adicionar Funcionário
             </button>
             <a
                 name=""

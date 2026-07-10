@@ -28,7 +28,7 @@ if($_POST){
     $id_jogador = (isset($_POST["id_jogador"])?$_POST["id_jogador"]:"");
     $status = (isset($_POST["status"])?$_POST["status"]:"");
 
-    $sentencia=$conexion->prepare("UPDATE contratoj SET id_jogador=:idjogador data_inicio=:inicio, data_final=:fim,salario=:salario,status=:status WHERE id=:id");
+    $sentencia=$conexion->prepare("UPDATE contratoj SET id_jogador=:idjogador, data_inicio=:inicio, data_final=:fim,salario=:salario,status=:status WHERE id=:id");
     $sentencia-> bindParam(":inicio", $inicio);
     $sentencia-> bindParam(":fim", $fim);
     $sentencia-> bindParam(":salario", $salario);
@@ -124,7 +124,7 @@ function getEnumValues($pdo, $tabela, $coluna) {
                 <select class="form-select" name="status" id="status" required>
                     <option value="">Selecione...</option>
                     <?php 
-                    $opcoesStatus = getEnumValues($conexion, 'contrato', 'status');
+                    $opcoesStatus = getEnumValues($conexion, 'contratoj', 'status');
                     foreach ($opcoesStatus as $opcao) {
                         echo "<option value='$opcao'>$opcao</option>";
                     }
@@ -135,7 +135,7 @@ function getEnumValues($pdo, $tabela, $coluna) {
                 type="submit"
                 class="btn btn-success"
             >
-                Criar Contrato
+                Adicionar Funcionário
             </button>
             <a
                 name=""

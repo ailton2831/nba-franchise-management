@@ -47,6 +47,7 @@ $num_colunas = (isset($_SESSION['tipo']) && $_SESSION['tipo'] === 'admin') ? 8 :
                         <th scope="col">Placar</th>
                         <th scope="col">Resultado</th>
                         <th scope="col">Temporada</th>
+                        <th scope="col">Estatistica</th>
                         <?php if (isset($_SESSION['tipo']) && $_SESSION['tipo'] === 'admin'): ?>
                             <th scope="col" style="text-align: right;">Ações</th>
                         <?php endif; ?>
@@ -91,18 +92,19 @@ $num_colunas = (isset($_SESSION['tipo']) && $_SESSION['tipo'] === 'admin') ? 8 :
                             </td>
 
                             <td><?= $registo['temporada'] ?></td>
-
-                            <?php if (isset($_SESSION['tipo']) && $_SESSION['tipo'] === 'admin'): ?>
-                                <td style="text-align: right;">
-                                    <?php if ($registo['data'] <= $hoje && $registo['placar'] !== null): ?>
-                                        <a href="boxscore.php?txtID=<?= $registo['id'] ?>" class="btn btn-primary btn-sm" role="button">
+                            <td>
+                            <?php if ($registo['data'] <= $hoje && $registo['placar'] !== null): ?>
+                                    <a href="boxscore.php?txtID=<?= $registo['id'] ?>" class="btn btn-primary btn-sm" role="button">
                                             Box score
-                                        </a>
+                                    </a>
+                            </td>
+                                <td style="text-align: right;">
                                     <?php endif; ?>
+                                    <?php if (isset($_SESSION['tipo']) && $_SESSION['tipo'] === 'admin'): ?>
                                     <a class="btn btn-success btn-sm" href="update.php?txtID=<?= $registo['id'] ?>" role="button">Update</a>
                                     <a class="btn btn-danger btn-sm" href="javascript:eliminar(<?= $registo['id'] ?>);" role="button">Delete</a>
+                                    <?php endif; ?>
                                 </td>
-                            <?php endif; ?>
                         </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>
