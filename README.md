@@ -1,6 +1,6 @@
 # NBA Franchise Management System
 
-Sistema de gestão de franquias da NBA desenvolvido como projeto da disciplina de Desenvolvimento Web, na Uni-CV (Universidade de Cabo Verde). 
+Sistema de gestão de franquias da NBA desenvolvido como projeto da disciplina de Desenvolvimento Web. 
 A aplicação web permite gerir staff, jogadores, contratos, jogos, estatisticas e finanças de uma franquia de basquetebol.
 
 ## Funcionalidades
